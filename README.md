@@ -80,8 +80,7 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project.
 
 ## Contact
 
-- [Personal website](http://bigatti.it)
-- [GitHub](https://github.com/mbigatti)
+- [Web](http://bigatti.it) 
 - [Twitter](https://twitter.com/mbigatti)
 
 ## License
