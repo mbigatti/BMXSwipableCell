@@ -1,7 +1,7 @@
 ## BMXSwipableCell
 
 A custom UITableViewCell that supports swipe to reveal, based on [code](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options) and
-tutorial by Ash Furrow and other contributores. This implementation try to mimic the iOS7 Mail app, including automatic selection / deselection
+tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic selection / deselection
 of rows based on user actions.
 
 ![image](http://cl.ly/image/0j0s2s282A2e)
