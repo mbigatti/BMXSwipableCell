@@ -9,22 +9,26 @@
 #import "BMXSwipableCellContentView.h"
 #import "BMXSwipableCell.h"
 
-@implementation BMXSwipableCellContentView {
-    BMXSwipableCell *_cell;
-}
+@interface BMXSwipableCellContentView ()
 
-- (id)initWithFrame:(CGRect)frame cell:(BMXSwipableCell*)cell
+@property (nonatomic, strong) BMXSwipableCell *cell;
+
+@end
+
+@implementation BMXSwipableCellContentView
+
+- (id)initWithFrame:(CGRect)frame cell:(BMXSwipableCell *)cell
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _cell = cell;
+        self.cell = cell;
     }
     return self;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [_cell cellTapped];
+    [self.cell cellTapped];
 }
 
 @end
