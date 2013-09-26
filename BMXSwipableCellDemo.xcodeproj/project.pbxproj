@@ -60,7 +60,6 @@
 		50948C2A17F2CCE900053AA1 /* BMXSwipableCellDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BMXSwipableCellDemoTests.m; sourceTree = "<group>"; };
 		50948C3417F2CDFA00053AA1 /* BMXSwipableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXSwipableCell.h; path = BMXSwipableCell/BMXSwipableCell.h; sourceTree = "<group>"; };
 		50948C3517F2CDFA00053AA1 /* BMXSwipableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXSwipableCell.m; path = BMXSwipableCell/BMXSwipableCell.m; sourceTree = "<group>"; };
-		50948C3817F2D18D00053AA1 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = "/Applications/Developer/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework"; sourceTree = "<absolute>"; };
 		50948C3A17F2D20400053AA1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		50948C3C17F2D20B00053AA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		50948C3E17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMXSwipableCell+ConfigureCell.h"; sourceTree = "<group>"; };
@@ -120,7 +119,6 @@
 			children = (
 				50948C3C17F2D20B00053AA1 /* QuartzCore.framework */,
 				50948C3A17F2D20400053AA1 /* CFNetwork.framework */,
-				50948C3817F2D18D00053AA1 /* Reveal.framework */,
 				50948BFF17F2CCE900053AA1 /* Foundation.framework */,
 				50948C0117F2CCE900053AA1 /* CoreGraphics.framework */,
 				50948C0317F2CCE900053AA1 /* UIKit.framework */,
