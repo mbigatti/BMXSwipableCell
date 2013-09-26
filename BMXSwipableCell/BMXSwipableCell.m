@@ -21,20 +21,20 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 #pragma mark - Lifecycle
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    [self setup];
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setup];
+        [self initialize];
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self initialize];
 }
 
 - (void)dealloc
@@ -44,7 +44,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 #pragma mark - Privates
 
-- (void)setup
+- (void)initialize
 {
     _catchWidth = DEFAULT_CATCH_WIDTH;
     
@@ -113,16 +113,17 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(enclosingTableViewDidScroll:) name:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
                                                object: nil];
-
 }
 
 - (void)hideBasementOfAllCellsExcept:(UIScrollView*)scrollView
 {
-    // close menu cells if user start swiping on a cell
-    // object parameter is the exception
-    [[NSNotificationCenter defaultCenter] postNotificationName:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
-                                                        object: nil
-                                                      userInfo: @{ BMXSwipableCellScrollViewKey: scrollView}];
+    if (scrollView != nil) {
+        // close menu cells if user start swiping on a cell
+        // object parameter is the exception
+        [[NSNotificationCenter defaultCenter] postNotificationName:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                                            object: nil
+                                                          userInfo: @{ BMXSwipableCellScrollViewKey: scrollView}];
+    }
 }
 
 - (void)dispatchDidDeselectMessageForIndexPath:(NSIndexPath*)indexPath

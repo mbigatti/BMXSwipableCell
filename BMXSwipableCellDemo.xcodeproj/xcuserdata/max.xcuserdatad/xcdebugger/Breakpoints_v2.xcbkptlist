@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMXSwipableCell/BMXSwipableCell.m"
-            timestampString = "401797848.899246"
+            timestampString = "401816024.808542"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-setup"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "-initialize"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
