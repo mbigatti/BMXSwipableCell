@@ -63,7 +63,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                                    name: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
                                                   object: nil];
 }
 
@@ -186,7 +186,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     }
     
     //
-    // setup basement view (for buttons)
+    // setup basement view (for buttons or other custom content)
     //
     {
         self.basementView = [[UIView alloc] initWithFrame: CGRectZero];
@@ -213,7 +213,6 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         [view removeFromSuperview];
         [self.scrollViewContentView addSubview: view];
     }
-    
     [self.contentView addSubview: self.scrollView];
     
     //
