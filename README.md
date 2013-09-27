@@ -97,7 +97,7 @@ Before adding subviews to the basement you can check if the cell was already ini
 
 This code is also available in the `UITableViewController+BMXSwipableCellSupport` category for your convenience.
 
-*Check out the sample project for a complete usage example.**
+**Check out the sample project for a complete usage example.**
 
 ## Notes about Interface Builder
 1. Accessory view are not supported and those have to be implemented in the content view of the cell.
