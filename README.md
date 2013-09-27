@@ -12,8 +12,8 @@ BMXSwipableCell is storyboard-friendly as does not implements cell contents on i
 
 BMXSwipableCell is generic in terms of what to show when a cell is swiped. It could be two buttons, one buttons or an entirely different content. For this reason BMXSwipableCell does not implement "More" and "Delete" buttons on its own, but it exports a _basement_ view, that is the view underneath the original content view defined in Interface Builder. When configuring the cell contents it is then possible to add the desidered buttons or view.
 
-Note that accessory view are not supported and those have to be implemented in the content view of the cell.
-
+**Note that accessory view are not supported and those have to be implemented in the content view of the cell.
+**
 ## Installation
 
 ### From CocoaPods
@@ -43,6 +43,8 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project.
 } 
 ```
 
+Before adding subviews to the basement you can check if the cell was already initialized using the property `basementConfigured` (cell that get reused can already have the custom basement content):
+
 ```objective-c
 @implementation BMXSwipableCell (ConfigureCell)
 
@@ -52,22 +54,25 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project.
     CGFloat x = self.catchWidth - cellHeight * 2;
     
     //
-    // Set up our two buttons
+    // configure cell only if not already done
     //
+    if (!self.basementConfigured) {    
+	    // first button...
     
-    // first button...
-    
-    
-    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
-    deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
-    [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [deleteButton addTarget: self
-                     action: @selector(userPressedDeleteButton:)
-           forControlEvents: UIControlEventTouchUpInside];
-    
-    [self.basementView addSubview: deleteButton];
+    	//
+    	// delete button
+    	//
+	    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	    deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
+	    deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
+	    [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+	    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	    [deleteButton addTarget: self
+	                     action: @selector(userPressedDeleteButton:)
+	           forControlEvents: UIControlEventTouchUpInside];
+	    
+	    [self.basementView addSubview: deleteButton];
+    }
     
     // configure cell contents
 

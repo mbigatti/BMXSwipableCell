@@ -14,31 +14,45 @@
 {
     CGFloat cellHeight = CGRectGetHeight(self.bounds);
     CGFloat x = self.catchWidth - cellHeight * 2;
-    
+
     //
-    // Set up our two buttons
+    // configure cell only if not already done
     //
-    UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreButton.backgroundColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0f];
-    moreButton.frame = CGRectMake(x, 0, cellHeight, cellHeight);
-    [moreButton setTitle:@"More" forState:UIControlStateNormal];
-    [moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [moreButton addTarget: self
-                   action: @selector(userPressedMoreButton:)
-         forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.basementView addSubview: moreButton];
-    
-    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
-    deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
-    [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [deleteButton addTarget: self
-                     action: @selector(userPressedDeleteButton:)
-           forControlEvents: UIControlEventTouchUpInside];
-    
-    [self.basementView addSubview: deleteButton];
+    if (!self.basementConfigured) {
+        
+        //
+        // more button
+        //
+        UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        moreButton.backgroundColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0f];
+        moreButton.frame = CGRectMake(x, 0, cellHeight, cellHeight);
+        [moreButton setTitle:@"More" forState:UIControlStateNormal];
+        [moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [moreButton addTarget: self
+                       action: @selector(userPressedMoreButton:)
+             forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.basementView addSubview: moreButton];
+        
+        //
+        // delete button
+        //
+        UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
+        deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
+        [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+        [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [deleteButton addTarget: self
+                         action: @selector(userPressedDeleteButton:)
+               forControlEvents: UIControlEventTouchUpInside];
+        
+        [self.basementView addSubview: deleteButton];
+        
+        //
+        // mark cell basement as configured
+        //
+        self.basementConfigured = YES;
+    }
     
     //
     // configure cell contents
@@ -46,6 +60,9 @@
     self.textLabel.text = [date description];
     self.detailTextLabel.text = [NSString stringWithFormat: @"%f", [date timeIntervalSince1970]];
     
+    //
+    // selected background view
+    //
     CGRect rect = CGRectMake(0, 0, CGRectGetWidth(self.bounds),  CGRectGetHeight(self.bounds));
     self.selectedBackgroundView = [[UIView alloc] initWithFrame: rect];
     self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0 green: 0.23 blue: 0.47 alpha: 1.0];

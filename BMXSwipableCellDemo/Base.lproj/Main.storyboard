@@ -37,8 +37,13 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
                         </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="tHq-GU-9Q4" id="UEq-01-Mo5"/>
+                            <outlet property="delegate" destination="tHq-GU-9Q4" id="OBH-XM-3FC"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Demo" id="GNy-ch-1HO">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="9lm-la-EHE">

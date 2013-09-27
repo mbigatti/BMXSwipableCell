@@ -7,7 +7,6 @@
 //
 
 #import "BMXViewController.h"
-#import "BMXSwipableCell.h"
 #import "BMXSwipableCell+ConfigureCell.h"
 
 
@@ -54,17 +53,37 @@
     
 	NSDate *object = _data[indexPath.row];
     [cell configureCellForItem: object];
+    
+    cell.delegate = self;
 
 	return cell;
 }
 
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"cell selected");
+}
+
+
+#pragma mark - BMXSwipableCellDelegate
+
+- (void)cell:(BMXSwipableCell *)cell basementVisibilityChanged:(BOOL)showing
+{
+    NSLog(@"cell %@ now %@",
+          cell.textLabel.text,
+          (showing ? @"visible" : @"not visible"));
+}
 
 
 #pragma mark - BMXSwipableCell related
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [super willRotateToInterfaceOrientation: toInterfaceOrientation
+                                   duration: duration];
 
     [BMXSwipableCell hideBasementOfAllCells];
 }

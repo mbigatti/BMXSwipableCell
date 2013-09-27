@@ -1,9 +1,25 @@
 //
-//  BMXSwipableCell.m
-//  BMXSwipableCellDemo
+// BMXSwipableCell.m
 //
-//  Created by Massimiliano Bigatti on 25/09/13.
-//  Copyright (c) 2013 Massimiliano Bigatti. All rights reserved.
+// Copyright (c) 2013 Massimiliano Bigatti.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 //
 
 #import "BMXSwipableCell.h"
@@ -13,16 +29,19 @@
 NSString *const BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification = @"BMXSwipableCellEnclosingTableViewDidScrollNotification";
 NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
+
 @interface BMXSwipableCell ()
 
 @property (nonatomic, strong) UITableView *table;
 
 // Overridden properties from header file
+@property (nonatomic, assign, readwrite) BOOL showingBasement;
 @property (nonatomic, strong, readwrite) UIScrollView *scrollView;
 @property (nonatomic, strong, readwrite) BMXSwipableCellContentView *scrollViewContentView;
 @property (nonatomic, strong, readwrite) UIView *basementView;
 
 @end
+
 
 @implementation BMXSwipableCell
 
@@ -31,7 +50,6 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
     [self initialize];
 }
 
@@ -44,101 +62,22 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self name:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                                  object: nil];
 }
 
 
-#pragma mark - Privates
+#pragma mark - Properties
 
-- (void)initialize {
-    self.catchWidth = DEFAULT_CATCH_WIDTH;
-    
-    //
-    // setup scroll view
-    //
-    {
-        CGRect rect = CGRectMake(0,
-                                 0,
-                                 CGRectGetWidth(self.bounds),
-                                 CGRectGetHeight(self.bounds));
-        
-        self.scrollView = [[UIScrollView alloc] initWithFrame: rect];
-        
-        self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.catchWidth,
-                                                 CGRectGetHeight(self.bounds));
-        self.scrollView.delegate = self;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-    }
-    
-    //
-    // setup basement view (for buttons)
-    //
-    {
-        CGRect rect = CGRectMake(CGRectGetWidth(self.bounds) - self.catchWidth,
-                                 0,
-                                 self.catchWidth,
-                                 CGRectGetHeight(self.bounds));
-        
-        self.basementView = [[UIView alloc] initWithFrame: rect];
-        self.basementView.backgroundColor = [UIColor clearColor];
-        
-        [self.scrollView addSubview: self.basementView];
-    }
-    
-    //
-    // setup scroll content view
-    //
-    {
-        CGRect rect = CGRectMake(0,
-                                 0,
-                                 CGRectGetWidth(self.bounds),
-                                 CGRectGetHeight(self.bounds));
-        
-        self.scrollViewContentView = [[BMXSwipableCellContentView alloc] initWithFrame: rect cell: self];
-        self.scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
-        
-        [self.scrollView addSubview: self.scrollViewContentView];
-    }
-    
-    //
-    // move storyboard cell subviews into the scroll view
-    //
-    NSArray *subviews = self.contentView.subviews;
-    for (UIView *view in subviews) {
-        [view removeFromSuperview];
-        [self.scrollViewContentView addSubview: view];
-    }
-    
-    [self.contentView addSubview: self.scrollView];
-    
-    //
-    // hide basement when table scrolls
-    //
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(enclosingTableViewDidScroll:)
-                                                 name: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
-                                               object: nil];
-}
-
-- (void)hideBasementOfAllCellsExcept:(UIScrollView*)scrollView {
-    if (scrollView != nil) {
-        // close menu cells if user start swiping on a cell
-        // object parameter is the exception
-        [[NSNotificationCenter defaultCenter] postNotificationName:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
-                                                            object: nil
-                                                          userInfo: @{ BMXSwipableCellScrollViewKey: scrollView}];
-    }
-}
-
-- (void)dispatchDidDeselectMessageForIndexPath:(NSIndexPath*)indexPath {
-    if ([self.table.delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
-        [self.table.delegate tableView: self.table
-         didDeselectRowAtIndexPath: indexPath];
-    }
+- (void)setCatchWidth:(CGFloat)catchWidth
+{
+    _catchWidth = catchWidth;
+    [self setNeedsLayout];
 }
 
 
-#pragma mark - Overrides
+#pragma mark - UITableViewCell Overrides
 
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
@@ -162,7 +101,8 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.catchWidth, CGRectGetHeight(self.bounds));
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.catchWidth,
+                                             CGRectGetHeight(self.bounds));
     
     self.scrollView.frame = CGRectMake(0,
                                        0,
@@ -194,22 +134,36 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     self.basementView.hidden = selected;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected: selected animated: animated];
     
     [self hideBasementOfAllCellsExcept: self.scrollView];
     self.basementView.hidden = selected;
 }
 
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted: highlighted];
+    
+    [self hideBasementOfAllCellsExcept: self.scrollView];
+    self.basementView.hidden = highlighted;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted: highlighted animated: animated];
+    
+    [self hideBasementOfAllCellsExcept: self.scrollView];
+    self.basementView.hidden = highlighted;
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing: editing animated: animated];
     
-    self.scrollView.scrollEnabled = !self.editing;
+    self.scrollView.scrollEnabled = !editing;
+    self.basementView.hidden = editing;
     
     if (self.showingBasement) {
         //
-        // hide basement
+        // hide basement if currently shown
         //
         [self.scrollView setContentOffset: CGPointZero
                                  animated: YES];
@@ -217,12 +171,100 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 
-#pragma mark - UIScrollViewDelegate Methods
+#pragma mark - Privates
+
+- (void)initialize {
+    self.catchWidth = DEFAULT_CATCH_WIDTH;
+    
+    //
+    // setup scroll view
+    //
+    {
+        self.scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+        self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.delegate = self;
+    }
+    
+    //
+    // setup basement view (for buttons)
+    //
+    {
+        self.basementView = [[UIView alloc] initWithFrame: CGRectZero];
+        self.basementView.backgroundColor = [UIColor clearColor];
+        
+        [self.scrollView addSubview: self.basementView];
+    }
+    
+    //
+    // setup scroll content view
+    //
+    {
+        self.scrollViewContentView = [[BMXSwipableCellContentView alloc] initWithFrame: CGRectZero cell: self];
+        self.scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
+        
+        [self.scrollView addSubview: self.scrollViewContentView];
+    }
+    
+    //
+    // move storyboard cell subviews into the scroll view
+    //
+    NSArray *subviews = self.contentView.subviews;
+    for (UIView *view in subviews) {
+        [view removeFromSuperview];
+        [self.scrollViewContentView addSubview: view];
+    }
+    
+    [self.contentView addSubview: self.scrollView];
+    
+    //
+    // hide basement when table scrolls
+    //
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(enclosingTableViewDidScroll:)
+                                                 name: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                               object: nil];
+}
+
+- (void)hideBasementOfAllCellsExcept:(UIScrollView*)scrollView {
+    if (scrollView != nil) {
+        //
+        // close menu cells if user start swiping on a cell
+        // object parameter is the exception
+        //
+        [[NSNotificationCenter defaultCenter] postNotificationName:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                                            object: nil
+                                                          userInfo: @{ BMXSwipableCellScrollViewKey: scrollView}];
+    }
+}
+
+- (void)dispatchDidDeselectMessageForIndexPath:(NSIndexPath*)indexPath {
+    if ([self.table.delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
+        [self.table.delegate tableView: self.table
+             didDeselectRowAtIndexPath: indexPath];
+    }
+}
+
+
+#pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
 	if (scrollView.contentOffset.x > self.catchWidth) {
 		targetContentOffset->x = self.catchWidth;
+        
+        //
+        // moved logic here so the event fires when user finish
+        // dragging and not when the basement is fully visible
+        //
+		if (!self.showingBasement) {
+			self.showingBasement = YES;
+
+            if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
+                
+                [self.delegate cell: self
+          basementVisibilityChanged: self.showingBasement];
+            }
+        }
         
 	} else {
 		*targetContentOffset = CGPointZero;
@@ -255,19 +297,31 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 	}
 	
 	self.basementView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.catchWidth), 0.0f, self.catchWidth, CGRectGetHeight(self.bounds));
-	
-	if (scrollView.contentOffset.x >= self.catchWidth) {
-		if (!self.showingBasement) {
-			self.showingBasement = YES;
-			//[self.delegate cell:self didShowMenu:self.isShowingMenu];
-		}
-	} else if (scrollView.contentOffset.x == 0.0f) {
+
+//
+// removed -> see scrollViewWillEndDragging:withVelocity:targetContentOffset
+//
+//	if (scrollView.contentOffset.x >= self.catchWidth) {
+//		if (!self.showingBasement) {
+//			self.showingBasement = YES;
+//          // notify delegate
+//		}
+//	} else
+    if (scrollView.contentOffset.x == 0.0f) {
 		if (self.showingBasement) {
 			self.showingBasement = NO;
-			//[self.delegate cell:self didShowMenu:self.isShowingMenu];
-		}
+            
+            //
+            // notify cell delegate about change in visibility of basement
+            //
+            if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
+                
+                [self.delegate cell: self
+          basementVisibilityChanged: self.showingBasement];
+            }
+        }
 	}
-    
+
     //
     // deselect current cell if dragging
     //
@@ -295,10 +349,9 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 
-#pragma mark - Publics
+#pragma mark - Content view callbacks
 
-- (void)cellTapped
-{
+- (void)cellTouchedDown {
     //
     // if touch began and cell is showing menu, does not
     // trigger cell selection
@@ -307,19 +360,52 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         return;
     }
     
-    //
-    // select row tapped
-    //
     NSIndexPath *indexPath = [self.table indexPathForCell: self];
+    id<UITableViewDelegate> delegate = self.table.delegate;
     
-  [self.table selectRowAtIndexPath: indexPath
-                          animated: NO
-                    scrollPosition: UITableViewScrollPositionNone];
-  
-    if ([self.table.delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
-        [self.table.delegate tableView: self.table
-               didSelectRowAtIndexPath: indexPath];
+    //
+    // if delegate agrees, highlight the cell
+    //
+    BOOL shouldHighlight = YES;
+    if ([delegate respondsToSelector: @selector(tableView:shouldHighlightRowAtIndexPath:)]) {
+        shouldHighlight = [delegate tableView: self.table
+                     shouldHighlightRowAtIndexPath: indexPath];
     }
+    
+    if (shouldHighlight) {
+        self.highlighted = YES;
+        
+        if ([delegate respondsToSelector: @selector(tableView:didHighlightRowAtIndexPath:)]) {
+            
+            [delegate tableView: self.table didHighlightRowAtIndexPath: indexPath];
+        }
+    }    
+}
+
+- (void)cellTouchedUp {
+    if (self.highlighted) {
+        self.highlighted = NO;
+        
+        //
+        // select row tapped
+        //
+        NSIndexPath *indexPath = [self.table indexPathForCell: self];
+        
+        [self.table selectRowAtIndexPath: indexPath
+                                animated: NO
+                          scrollPosition: UITableViewScrollPositionNone];
+        
+        id<UITableViewDelegate> delegate = self.table.delegate;
+        
+        if ([delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+            [delegate tableView: self.table didSelectRowAtIndexPath: indexPath];
+        }
+    }
+}
+
+- (void)cellTouchCancelled
+{
+    self.highlighted = NO;
 }
 
 
@@ -327,7 +413,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 + (void)hideBasementOfAllCells
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
                                                         object: nil];
 }
 

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BMXSwipableCell.h"
 
-@interface BMXViewController : UITableViewController <UITableViewDataSource>
+@interface BMXViewController : UITableViewController <UITableViewDataSource, BMXSwipableCellDelegate>
 
 @end
