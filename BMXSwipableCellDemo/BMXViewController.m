@@ -8,6 +8,7 @@
 
 #import "BMXViewController.h"
 #import "BMXSwipableCell+ConfigureCell.h"
+#import "UITableViewController+BMXSwipableCellSupport.h"
 
 
 @implementation BMXViewController {
@@ -59,6 +60,10 @@
 	return cell;
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+#warning not implemented
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -78,19 +83,6 @@
 }
 
 
-#pragma mark - BMXSwipableCell related
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    
-    [super willRotateToInterfaceOrientation: toInterfaceOrientation
-                                   duration: duration];
-
-    [BMXSwipableCell hideBasementOfAllCells];
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [BMXSwipableCell hideBasementOfAllCells];
-}
 
 @end
