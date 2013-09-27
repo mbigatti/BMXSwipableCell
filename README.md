@@ -10,10 +10,10 @@ BMXSwipableCell is storyboard-friendly as does not implements cell contents on i
 
 ![image](http://f.cl.ly/items/0e011T2u373f0p2m1S3y/Interface%20Builder.png)
 
-BMXSwipableCell is generic in terms of what to show when a cell is swiped. It could be two buttons, one buttons or an entirely different content. For this reason BMXSwipableCell does not implement "More" and "Delete" buttons on its own, but it exports a _basement_ view, that is the view underneath the original content view defined in Interface Builder. When configuring the cell contents it is then possible to add the desidered buttons or view.
+BMXSwipableCell is generic in terms of what to show when a cell is swiped. It could be two buttons, one buttons or an entirely different content. For this reason BMXSwipableCell does not implement "More" and "Delete" buttons on its own, but it exports a _basement_ view, that is the view underneath the original content view defined in Interface Builder. In `tableView:cellForRowAtIndexPath` it is then possible to add the desidered buttons or view.
 
-**Note that accessory view are not supported and those have to be implemented in the content view of the cell.
-**
+*Note that accessory view are not supported and those have to be implemented in the content view of the cell.*
+
 ## Installation
 
 ### From CocoaPods
@@ -22,13 +22,13 @@ Add `pod 'BMXSwipableCell'` to your Podfile.
 
 ### Manually
 
-Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project.
+Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project and add it to your targets.
 
 
-### Usage
+## Usage
 
-1. If you're using Interface Builder, define the Custom Class of the cell as `BMXSwipableCell`. If you're going by code, register `BMXSwipableCell` with your `UITableView`.
-2. Implement the tableView:cellForRowAtIndexPath method and configure the cell as desired. Here it is done by a category:
+1. If you're using Interface Builder, define the `Custom Class` of the cell as `BMXSwipableCell`. If you're going by code, register `BMXSwipableCell` with your `UITableView`.
+2. Implement the `tableView:cellForRowAtIndexPath` method and configure the cell as desired. Here it is done by a category:
 
 ```objective-c
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,8 +80,11 @@ Before adding subviews to the basement you can check if the cell was already ini
 //... more
 ```
 
-
 **Check out the sample project for a complete usage example.**
+
+#Using Interface Builder
+1. Remeber to set `Custom Class` to `BMXSwipableCell`.
+2. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
 
 ## Contact
 
