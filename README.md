@@ -1,7 +1,7 @@
 # BMXSwipableCell
 
-A custom UITableViewCell that supports swipe to reveal, based on [code](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options) and
-tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic selection / deselection
+A custom `UITableViewCell` that supports swipe to reveal, based on [code](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options) and
+tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic highlight / selection / deselection
 of rows based on user actions.
 
 ![image](http://f.cl.ly/items/3H400Z030Z3A1w2N3H3W/test.gif)
@@ -10,7 +10,7 @@ BMXSwipableCell is storyboard-friendly as does not implements cell contents on i
 
 ![image](http://f.cl.ly/items/0e011T2u373f0p2m1S3y/Interface%20Builder.png)
 
-BMXSwipableCell is generic in terms of what to show when a cell is swiped. It could be two buttons, one buttons or an entirely different content. For this reason BMXSwipableCell does not implement "More" and "Delete" buttons on its own, but it exports a _basement_ view, that is the view underneath the original content view defined in Interface Builder. In `tableView:cellForRowAtIndexPath` it is then possible to add the desidered buttons or view.
+`BMXSwipableCell` is generic in terms of what to show when a cell is swiped. It could be two buttons, one buttons or an entirely different content. For this reason `BMXSwipableCell` does not implement "More" and "Delete" buttons on its own, but it exports a _basement_ view, that is the view underneath the original content view defined in Interface Builder. In `tableView:cellForRowAtIndexPath` it is then possible to add the desidered buttons or view.
 
 ## Installation
 
@@ -78,7 +78,26 @@ Before adding subviews to the basement you can check if the cell was already ini
 //... more
 ```
 
-**Check out the sample project for a complete usage example.**
+3. Add few methods to your `UITableViewController` / `UITableViewDelegate` to manage automatic hiding of basements when device is rotated or when the list is scrolled:
+
+```objective-c
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    [super willRotateToInterfaceOrientation: toInterfaceOrientation
+                                   duration: duration];
+    
+    [BMXSwipableCell hideBasementOfAllCells];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [BMXSwipableCell hideBasementOfAllCells];
+}
+```
+
+This code is also available in the `UITableViewController+BMXSwipableCellSupport` category for your convenience.
+
+*Check out the sample project for a complete usage example.**
 
 ## Notes about Interface Builder
 1. Accessory view are not supported and those have to be implemented in the content view of the cell.
