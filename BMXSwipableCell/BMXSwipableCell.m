@@ -101,6 +101,20 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    //
+    // move storyboard / custom cell subviews into the scroll view
+    //
+    {
+        NSArray *subviews = self.contentView.subviews;
+        for (UIView *view in subviews) {
+            if (view != self.scrollView) {
+                [view removeFromSuperview];
+                [self.scrollViewContentView addSubview: view];
+            }
+        }
+        [self.contentView addSubview: self.scrollView];
+    }
+    
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.catchWidth,
                                              CGRectGetHeight(self.bounds));
     
@@ -204,16 +218,6 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         
         [self.scrollView addSubview: self.scrollViewContentView];
     }
-    
-    //
-    // move storyboard cell subviews into the scroll view
-    //
-    NSArray *subviews = self.contentView.subviews;
-    for (UIView *view in subviews) {
-        [view removeFromSuperview];
-        [self.scrollViewContentView addSubview: view];
-    }
-    [self.contentView addSubview: self.scrollView];
     
     //
     // hide basement when table scrolls

@@ -62,7 +62,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-#warning not implemented
+#warning not implemented in this demo
 }
 
 #pragma mark - UITableViewDelegate

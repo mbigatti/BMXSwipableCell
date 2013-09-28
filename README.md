@@ -103,7 +103,11 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 1. Accessory view are not supported and those have to be implemented in the content view of the cell.
 2. Remeber to set `Custom Class` to `BMXSwipableCell`.
 3. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
-4. If you are using a cell with not visible content (for example a cell with two labels one of which has `text = nil`) and you update that same cell setting a visible value, UIKit creates the label in the cell content view after `BMXSwipeCell` initializing code, so when you drag the cell the new created label does not scroll with other cell content. A workaround to this issue is to assign the `text` property of the cell to a space. In this way the label will be created at startup and transferred to the scroll view.
+4. ~~If you are using a cell with not visible content (for example a cell with two labels one of which has `text = nil`) and you update that same cell setting a visible value, UIKit creates the label in the cell content view after `BMXSwipeCell` initializing code, so when you drag the cell the new created label does not scroll with other cell content. A workaround to this issue is to assign the `text` property of the cell to a space. In this way the label will be created at startup and transferred to the scroll view.~~ Fixed in current version.
+
+## Known issues
+1. Cell deletion in editing mode has issues related to default Delete button.
+
 
 ## Contact
 
