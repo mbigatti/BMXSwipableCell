@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BMXSwipableCell.h"
 
-@interface BMXViewController : UITableViewController <UITableViewDataSource, BMXSwipableCellDelegate>
+@interface BMXViewController : UITableViewController <UITableViewDataSource, BMXSwipableCellDelegate, UIActionSheetDelegate>
 
 @end

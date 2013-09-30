@@ -26,11 +26,11 @@
         UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
         moreButton.backgroundColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0f];
         moreButton.frame = CGRectMake(x, 0, cellHeight, cellHeight);
-        [moreButton setTitle:@"More" forState:UIControlStateNormal];
-        [moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [moreButton setTitle: @"More" forState: UIControlStateNormal];
+        [moreButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
         [moreButton addTarget: self
                        action: @selector(userPressedMoreButton:)
-             forControlEvents:UIControlEventTouchUpInside];
+             forControlEvents: UIControlEventTouchUpInside];
         
         [self.basementView addSubview: moreButton];
         
@@ -40,8 +40,8 @@
         UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
         deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
         deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
-        [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-        [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [deleteButton setTitle: @"Delete" forState: UIControlStateNormal];
+        [deleteButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
         [deleteButton addTarget: self
                          action: @selector(userPressedDeleteButton:)
                forControlEvents: UIControlEventTouchUpInside];
@@ -65,7 +65,10 @@
     //
     CGRect rect = CGRectMake(0, 0, CGRectGetWidth(self.bounds),  CGRectGetHeight(self.bounds));
     self.selectedBackgroundView = [[UIView alloc] initWithFrame: rect];
-    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0 green: 0.23 blue: 0.47 alpha: 1.0];
+    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed: 103.0 / 255
+                                                                  green: 128.0 / 255
+                                                                   blue: 172.0 / 255
+                                                                  alpha: 1.0];
 
 }
 

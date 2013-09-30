@@ -32,7 +32,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 @interface BMXSwipableCell ()
 
-@property (nonatomic, strong) UITableView *table;
+@property (nonatomic, strong) UITableView *tableView;
 
 // Overridden properties from header file
 @property (nonatomic, assign, readwrite) BOOL showingBasement;
@@ -92,7 +92,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     
     NSAssert([view isKindOfClass: [UITableView class]], @"UITableView not found");
     
-    self.table = (UITableView*)view;
+    self.tableView = (UITableView*)view;
 }
 
 //
@@ -179,8 +179,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         //
         // hide basement if currently shown
         //
-        [self.scrollView setContentOffset: CGPointZero
-                                 animated: YES];
+        [self hideBasement];
     }
 }
 
@@ -241,10 +240,38 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 - (void)dispatchDidDeselectMessageForIndexPath:(NSIndexPath*)indexPath {
-    if ([self.table.delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
-        [self.table.delegate tableView: self.table
+    if ([self.tableView.delegate respondsToSelector: @selector(tableView:didDeselectRowAtIndexPath:)]) {
+        [self.tableView.delegate tableView: self.tableView
              didDeselectRowAtIndexPath: indexPath];
     }
+}
+
+- (void)hideBasement
+{
+    [self.scrollView setContentOffset: CGPointZero
+                             animated: YES];
+    
+    self.showingBasement = NO;
+    
+    //
+    // notify cell delegate about change in visibility of basement
+    //
+    if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
+        [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
+    }
+}
+
+- (void)deselectCurrentCell
+{
+    //
+    // deselect current cell if dragging
+    //
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
+    
+    [self.tableView deselectRowAtIndexPath: indexPath
+                              animated: NO];
+    
+    [self dispatchDidDeselectMessageForIndexPath: indexPath];
 }
 
 
@@ -263,9 +290,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 			self.showingBasement = YES;
 
             if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
-                
-                [self.delegate cell: self
-          basementVisibilityChanged: self.showingBasement];
+                [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
             }
         }
         
@@ -287,9 +312,9 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     //
     // if user starts dragging a cell, deselect other cells in the table
     //
-    NSArray *selectedCells = [self.table indexPathsForSelectedRows];
+    NSArray *selectedCells = [self.tableView indexPathsForSelectedRows];
     for (NSIndexPath *indexPath in selectedCells) {
-        [self.table deselectRowAtIndexPath: indexPath animated: NO];
+        [self.tableView deselectRowAtIndexPath: indexPath animated: NO];
         [self dispatchDidDeselectMessageForIndexPath: indexPath];
     }
 }
@@ -299,39 +324,20 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 		scrollView.contentOffset = CGPointZero;
 	}
 	
-	self.basementView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.catchWidth), 0.0f, self.catchWidth, CGRectGetHeight(self.bounds));
+	self.basementView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.catchWidth),
+                                         0.0f,
+                                         self.catchWidth,
+                                         CGRectGetHeight(self.bounds));
 
-//
-// removed -> see scrollViewWillEndDragging:withVelocity:targetContentOffset
-//
-//	if (scrollView.contentOffset.x >= self.catchWidth) {
-//		if (!self.showingBasement) {
-//			self.showingBasement = YES;
-//          // notify delegate
-//		}
-//	} else
     if (scrollView.contentOffset.x == 0.0f) {
 		if (self.showingBasement) {
-			self.showingBasement = NO;
+            [self hideBasement];
             
-            //
-            // notify cell delegate about change in visibility of basement
-            //
-            if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
-                
-                [self.delegate cell: self
-          basementVisibilityChanged: self.showingBasement];
+            if (self.selected) {
+                [self deselectCurrentCell];
             }
         }
 	}
-
-    //
-    // deselect current cell if dragging
-    //
-    NSIndexPath *indexPath = [self.table indexPathForCell: self];
-    [self.table deselectRowAtIndexPath: indexPath
-                              animated: NO];
-    [self dispatchDidDeselectMessageForIndexPath: indexPath];
 }
 
 
@@ -363,45 +369,74 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         return;
     }
     
-    NSIndexPath *indexPath = [self.table indexPathForCell: self];
-    id<UITableViewDelegate> delegate = self.table.delegate;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
+    id<UITableViewDelegate> delegate = self.tableView.delegate;
     
-    //
-    // if delegate agrees, highlight the cell
-    //
-    BOOL shouldHighlight = YES;
-    if ([delegate respondsToSelector: @selector(tableView:shouldHighlightRowAtIndexPath:)]) {
-        shouldHighlight = [delegate tableView: self.table
-                     shouldHighlightRowAtIndexPath: indexPath];
+    BOOL canHighlight = (self.editing && self.tableView.allowsSelectionDuringEditing) ||
+    (!self.editing && self.tableView.allowsSelection);
+    
+    BOOL shouldHighlight = NO;
+    
+    if (canHighlight) {
+        // default: do highlight
+        shouldHighlight = YES;
+        
+        //
+        // if delegate agrees, highlight the cell
+        //
+        if ([delegate respondsToSelector: @selector(tableView:shouldHighlightRowAtIndexPath:)]) {
+            shouldHighlight = [delegate tableView: self.tableView
+                    shouldHighlightRowAtIndexPath: indexPath];
+        }
     }
     
     if (shouldHighlight) {
         self.highlighted = YES;
         
         if ([delegate respondsToSelector: @selector(tableView:didHighlightRowAtIndexPath:)]) {
-            
-            [delegate tableView: self.table didHighlightRowAtIndexPath: indexPath];
+            [delegate tableView: self.tableView didHighlightRowAtIndexPath: indexPath];
         }
-    }    
+    }
+    
 }
 
 - (void)cellTouchedUp {
     if (self.highlighted) {
         self.highlighted = NO;
         
+        id<UITableViewDelegate> delegate = self.tableView.delegate;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
+        
+        BOOL canSelect = (self.editing && self.tableView.allowsSelectionDuringEditing) ||
+                            (!self.editing && self.tableView.allowsSelection);
+        BOOL willSelect = canSelect;
+        
+        if (canSelect && !self.tableView.editing) {
+            if ([delegate respondsToSelector: @selector(tableView:willSelectRowAtIndexPath:)]) {
+                if (!self.tableView.editing || (self.tableView.editing && self.tableView.allowsSelectionDuringEditing)) {
+                    NSIndexPath *requestedIndexPath = [delegate tableView: self.tableView willSelectRowAtIndexPath: indexPath];
+                    if (requestedIndexPath == nil) {
+                        willSelect = NO;
+                    } else {
+                        indexPath = requestedIndexPath;
+                    }
+                }
+            }
+        }
+        
         //
-        // select row tapped
+        // should select row
         //
-        NSIndexPath *indexPath = [self.table indexPathForCell: self];
-        
-        [self.table selectRowAtIndexPath: indexPath
-                                animated: NO
-                          scrollPosition: UITableViewScrollPositionNone];
-        
-        id<UITableViewDelegate> delegate = self.table.delegate;
-        
-        if ([delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
-            [delegate tableView: self.table didSelectRowAtIndexPath: indexPath];
+        if (willSelect) {
+            [self.tableView selectRowAtIndexPath: indexPath
+                                        animated: NO
+                                  scrollPosition: UITableViewScrollPositionNone];
+            
+            if (!self.tableView.editing) {
+                if ([delegate respondsToSelector: @selector(tableView:didSelectRowAtIndexPath:)]) {
+                    [delegate tableView: self.tableView didSelectRowAtIndexPath: indexPath];
+                }
+            }
         }
     }
 }
