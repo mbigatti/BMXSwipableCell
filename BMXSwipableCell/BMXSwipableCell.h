@@ -119,10 +119,10 @@
 ///------------------------------------------------
 
 /**
- Restore initial state for all cells, hiding basement.
+ Restore initial state for all cells, closing the basement.
  
  @discussion
  */
-+ (void)hideBasementOfAllCells;
++ (void)coverBasementOfAllCells;
 
 @end

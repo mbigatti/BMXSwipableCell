@@ -34,12 +34,12 @@
     [super willRotateToInterfaceOrientation: toInterfaceOrientation
                                    duration: duration];
     
-    [BMXSwipableCell hideBasementOfAllCells];
+    [BMXSwipableCell coverBasementOfAllCells];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [BMXSwipableCell hideBasementOfAllCells];
+    [BMXSwipableCell coverBasementOfAllCells];
 }
 
 @end
