@@ -14,3 +14,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define BACKGROUND_COLOR_1 [UIColor colorWithRed: 103.0 / 255 green: 128.0 / 255 blue: 172.0 / 255 alpha: 1.0]

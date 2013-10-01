@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 Massimiliano Bigatti. All rights reserved.
 //
 
-#import "BMXViewController.h"
 #import "BMXSwipableCell+ConfigureCell.h"
+#import "BMXViewController.h"
+#import "UITableViewCell+ConfigureCell.h"
 #import "UITableViewController+BMXSwipableCellSupport.h"
 
 
 @implementation BMXViewController {
     NSMutableArray *_data;
+    NSString *_cellIdentifier;
 }
 
 - (void)viewDidLoad
@@ -24,12 +26,16 @@
     //
     self.navigationController.toolbarHidden = NO;
     
-    UIBarButtonItem *b1 = [[UIBarButtonItem alloc] initWithTitle: @"Selection mode"
+    UIBarButtonItem *editSelectionModeBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Selection mode"
                                                            style: UIBarButtonItemStylePlain
                                                           target: self
                                                           action: @selector(selectionButtonTapped:)];
     
-    UIBarButtonItem *b2 = [[UIBarButtonItem alloc] initWithTitle: @"Edit Selection mode"
+    UIBarButtonItem *editCellTypeBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Cell Type"
+                                                                                  style: UIBarButtonItemStylePlain
+                                                                                 target: self
+                                                                                 action: @selector(editCellTypeButtonTapped:)];
+    UIBarButtonItem *editEditSelectionModeBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Edit Selection mode"
                                                            style: UIBarButtonItemStylePlain
                                                           target: self
                                                           action: @selector(editingSelectionButtonTapped:)];
@@ -38,10 +44,15 @@
                                                   target: nil
                                                   action: nil];
     
-    self.toolbarItems = @[b1, spaceBarButtonItem, b2];
+    self.toolbarItems = @[editSelectionModeBarButtonItem,
+                          spaceBarButtonItem,
+                          editCellTypeBarButtonItem,
+                          spaceBarButtonItem,
+                          editEditSelectionModeBarButtonItem];
     
     //
     _data = [[NSMutableArray alloc] init];
+    _cellIdentifier = @"SwipeCell";
 }
 
 - (void)selectionButtonTapped:(id)sender
@@ -56,6 +67,18 @@
     [sheet showFromToolbar: self.navigationController.toolbar];
 }
 
+- (void)editCellTypeButtonTapped:(id)sender
+{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle: @"Choose cell type"
+                                                       delegate: self
+                                              cancelButtonTitle: @"Cancel"
+                                         destructiveButtonTitle: nil
+                                              otherButtonTitles: @"Swipe", @"Default", nil];
+    
+    sheet.tag = 2;
+    [sheet showFromToolbar: self.navigationController.toolbar];
+}
+
 - (void)editingSelectionButtonTapped:(id)sender
 {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle: @"Choose selection mode for editing"
@@ -64,7 +87,7 @@
                                          destructiveButtonTitle: nil
                                               otherButtonTitles: @"No selection", @"Single selection", @"Multiple selection", nil];
     
-    sheet.tag = 2;
+    sheet.tag = 3;
     [sheet showFromToolbar: self.navigationController.toolbar];
 }
 
@@ -114,6 +137,15 @@
             break;
             
         case 2:
+            if (buttonIndex == 0) {
+                _cellIdentifier = @"SwipeCell";
+            } else {
+                _cellIdentifier = @"DefaultCell";
+            }
+            [self.tableView reloadData];
+            break;
+            
+        case 3:
         {
             switch (buttonIndex) {
                 case 0:
@@ -147,13 +179,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	BMXSwipableCell *cell = (BMXSwipableCell *)[tableView dequeueReusableCellWithIdentifier: @"Cell"
+	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier: _cellIdentifier
                                                                                forIndexPath: indexPath];
     
 	NSDate *object = _data[indexPath.row];
     [cell configureCellForItem: object];
     
-    cell.delegate = self;
+    if ([cell isKindOfClass:[BMXSwipableCell class]]) {
+        ((BMXSwipableCell*)cell).delegate = self;
+    }
 
 	return cell;
 }

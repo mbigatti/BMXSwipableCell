@@ -65,10 +65,7 @@
     //
     CGRect rect = CGRectMake(0, 0, CGRectGetWidth(self.bounds),  CGRectGetHeight(self.bounds));
     self.selectedBackgroundView = [[UIView alloc] initWithFrame: rect];
-    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed: 103.0 / 255
-                                                                  green: 128.0 / 255
-                                                                   blue: 172.0 / 255
-                                                                  alpha: 1.0];
+    self.selectedBackgroundView.backgroundColor = BACKGROUND_COLOR_1;
 
 }
 

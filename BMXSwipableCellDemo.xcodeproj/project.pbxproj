@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		506EE46417F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */; };
+		508290F017FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */; };
 		50948C0017F2CCE900053AA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948BFF17F2CCE900053AA1 /* Foundation.framework */; };
 		50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0117F2CCE900053AA1 /* CoreGraphics.framework */; };
 		50948C0417F2CCE900053AA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0317F2CCE900053AA1 /* UIKit.framework */; };
@@ -42,6 +43,8 @@
 /* Begin PBXFileReference section */
 		506EE46217F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewController+BMXSwipableCellSupport.h"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.h"; sourceTree = "<group>"; };
 		506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewController+BMXSwipableCellSupport.m"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.m"; sourceTree = "<group>"; };
+		508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
+		508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		50948BFC17F2CCE900053AA1 /* BMXSwipableCellDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMXSwipableCellDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50948BFF17F2CCE900053AA1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50948C0117F2CCE900053AA1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -142,6 +145,8 @@
 				50948C1717F2CCE900053AA1 /* Images.xcassets */,
 				50948C1117F2CCE900053AA1 /* Main.storyboard */,
 				50948C0617F2CCE900053AA1 /* Supporting Files */,
+				508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */,
+				508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */,
 			);
 			path = BMXSwipableCellDemo;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508290F017FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m in Sources */,
 				50948C1017F2CCE900053AA1 /* BMXAppDelegate.m in Sources */,
 				50948C1617F2CCE900053AA1 /* BMXViewController.m in Sources */,
 				50948C4017F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m in Sources */,

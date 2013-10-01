@@ -401,17 +401,56 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 - (void)cellTouchedUp {
-    if (self.highlighted) {
+    id<UITableViewDelegate> delegate = self.tableView.delegate;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
+    
+    //
+    // unhighligth
+    //
+    BOOL shouldUnhighlight = YES;
+    
+    //
+    // if delegate agrees, unhighlight the cell
+    //
+    if ([delegate respondsToSelector: @selector(tableView:shouldHighlightRowAtIndexPath:)]) {
+        shouldUnhighlight = [delegate tableView: self.tableView
+                  shouldHighlightRowAtIndexPath: indexPath];
+    }
+    if (shouldUnhighlight) {
         self.highlighted = NO;
         
-        id<UITableViewDelegate> delegate = self.tableView.delegate;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
+        if ([delegate respondsToSelector: @selector(tableView:didHighlightRowAtIndexPath:)]) {
+            [delegate tableView: self.tableView didUnhighlightRowAtIndexPath: indexPath];
+        }
+    }
+    
+    
+    //
+    // cell selection
+    //
+    if (self.editing && self.tableView.allowsMultipleSelectionDuringEditing) {
+        BOOL doDeselect = YES;
         
+        if ([delegate respondsToSelector: @selector(tableView:willDeselectRowAtIndexPath:)]) {
+            NSIndexPath *requestedIndexPath = [delegate tableView: self.tableView willDeselectRowAtIndexPath: indexPath];
+            if (requestedIndexPath == nil) {
+                doDeselect = NO;
+            } else {
+                indexPath = requestedIndexPath;
+            }
+        }
+        if (doDeselect) {
+            if ([delegate respondsToSelector: @selector(tableView:didDeselectRowAtIndexPath:)]) {
+                [delegate tableView: self.tableView didDeselectRowAtIndexPath: indexPath];
+            }
+        }
+        
+    } else {
         BOOL canSelect = (self.editing && self.tableView.allowsSelectionDuringEditing) ||
-                            (!self.editing && self.tableView.allowsSelection);
+        (!self.editing && self.tableView.allowsSelection);
         BOOL willSelect = canSelect;
         
-        if (canSelect && !self.tableView.editing) {
+        if (canSelect) {
             if ([delegate respondsToSelector: @selector(tableView:willSelectRowAtIndexPath:)]) {
                 if (!self.tableView.editing || (self.tableView.editing && self.tableView.allowsSelectionDuringEditing)) {
                     NSIndexPath *requestedIndexPath = [delegate tableView: self.tableView willSelectRowAtIndexPath: indexPath];
@@ -432,10 +471,8 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
                                         animated: NO
                                   scrollPosition: UITableViewScrollPositionNone];
             
-            if (!self.tableView.editing) {
-                if ([delegate respondsToSelector: @selector(tableView:didSelectRowAtIndexPath:)]) {
-                    [delegate tableView: self.tableView didSelectRowAtIndexPath: indexPath];
-                }
+            if ([delegate respondsToSelector: @selector(tableView:didSelectRowAtIndexPath:)]) {
+                [delegate tableView: self.tableView didSelectRowAtIndexPath: indexPath];
             }
         }
     }
