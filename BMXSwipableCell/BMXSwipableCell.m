@@ -25,6 +25,7 @@
 #import "BMXSwipableCell.h"
 
 #define DEFAULT_CATCH_WIDTH 120
+#define UITABLEVIEW_DELETE_CONTROL_WIDTH (47 - 12)
 
 NSString *const BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification = @"BMXSwipableCellEnclosingTableViewDidScrollNotification";
 NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
@@ -110,28 +111,29 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
             if (view != self.scrollView) {
                 [view removeFromSuperview];
                 [self.scrollViewContentView addSubview: view];
+                
+                //NSLog(@"moved %@", [view description]);
             }
         }
         [self.contentView addSubview: self.scrollView];
     }
     
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.catchWidth,
-                                             CGRectGetHeight(self.bounds));
-    
-    self.scrollView.frame = CGRectMake(0,
-                                       0,
-                                       CGRectGetWidth(self.bounds),
-                                       CGRectGetHeight(self.bounds));
-    
-    self.basementView.frame = CGRectMake(CGRectGetWidth(self.bounds) - self.catchWidth,
-                                         0,
-                                         self.catchWidth,
-                                         CGRectGetHeight(self.bounds));
-    
-    self.scrollViewContentView.frame = CGRectMake(0,
-                                                  0,
-                                                  CGRectGetWidth(self.bounds),
-                                                  CGRectGetHeight(self.bounds));
+    //
+    // resize views
+    //
+    {
+        CGFloat w = CGRectGetWidth(self.bounds);
+        CGFloat h = CGRectGetHeight(self.bounds);
+        
+        self.scrollView.contentSize = CGSizeMake(w + self.catchWidth, h);
+        self.scrollView.frame = CGRectMake(0, 0, w, h);
+        self.basementView.frame = CGRectMake(w - self.catchWidth, 0, self.catchWidth, h);
+        
+        if (self.editing) {
+            w -= UITABLEVIEW_DELETE_CONTROL_WIDTH;
+        }
+        self.scrollViewContentView.frame = CGRectMake(0, 0, w, h);
+    }
 }
 
 - (void)prepareForReuse {
@@ -278,6 +280,9 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+//    if (self.editing) {
+//        return;
+//    }
     
 	if (scrollView.contentOffset.x > self.catchWidth) {
 		targetContentOffset->x = self.catchWidth;
@@ -286,11 +291,13 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         // moved logic here so the event fires when user finish
         // dragging and not when the basement is fully visible
         //
-		if (!self.showingBasement) {
-			self.showingBasement = YES;
-
-            if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
-                [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
+        if (!self.editing) {
+            if (!self.showingBasement) {
+                self.showingBasement = YES;
+                
+                if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
+                    [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
+                }
             }
         }
         
@@ -307,6 +314,10 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    if (self.editing) {
+        return;
+    }
+    
     [self hideBasementOfAllCellsExcept: scrollView];
     
     //
@@ -320,6 +331,10 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.editing) {
+        return;
+    }
+    
 	if (scrollView.contentOffset.x < 0.0f) {
 		scrollView.contentOffset = CGPointZero;
 	}
@@ -407,7 +422,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     //
     // unhighligth
     //
-    BOOL shouldUnhighlight = YES;
+    BOOL shouldUnhighlight = self.highlighted;
     
     //
     // if delegate agrees, unhighlight the cell
@@ -494,4 +509,6 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 @end
 
+
 #undef DEFAULT_CATCH_WIDTH
+#undef UITABLEVIEW_DELETE_CONTROL_WIDTH

@@ -45,6 +45,7 @@
 		506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewController+BMXSwipableCellSupport.m"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.m"; sourceTree = "<group>"; };
 		508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
+		508290F117FABA5400A4BA99 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = "../../../../Applications/Developer/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework"; sourceTree = "<group>"; };
 		50948BFC17F2CCE900053AA1 /* BMXSwipableCellDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMXSwipableCellDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50948BFF17F2CCE900053AA1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50948C0117F2CCE900053AA1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -123,6 +124,7 @@
 		50948BFE17F2CCE900053AA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				508290F117FABA5400A4BA99 /* Reveal.framework */,
 				50948C3C17F2D20B00053AA1 /* QuartzCore.framework */,
 				50948C3A17F2D20400053AA1 /* CFNetwork.framework */,
 				50948BFF17F2CCE900053AA1 /* Foundation.framework */,

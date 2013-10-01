@@ -106,8 +106,7 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 
 
 ## Known issues
-1. Cell deletion in editing mode has issues related to default Delete button.
-2. willDeselect / didDeselect messages are not fired.
+1. willDeselect / didDeselect messages are not fired.
 
 
 ## Contact
