@@ -353,7 +353,12 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         return;
     }
     
-    if (scrollView.contentOffset.x <= 0.0f) {
+    if (scrollView.contentOffset.x < 0) {
+        // prevent scrolling to right
+        scrollView.contentOffset = CGPointZero;
+        
+    } else if (scrollView.contentOffset.x == 0) {
+        // cover basement
         [self coverBasement];
         
         if (self.selected) {
@@ -361,6 +366,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
         }
         
 	} else {
+        // slide view
         self.basementView.hidden = NO;
         self.basementView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.catchWidth),
                                              0.0f,

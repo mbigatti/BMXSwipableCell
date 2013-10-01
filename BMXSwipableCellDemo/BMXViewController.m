@@ -121,10 +121,12 @@
                 case 0:
                     self.tableView.allowsSelection = NO;
                     break;
+                    
                 case 1:
                     self.tableView.allowsSelection = YES;
                     self.tableView.allowsMultipleSelection = NO;
                     break;
+                    
                 case 2:
                     self.tableView.allowsSelection = YES;
                     self.tableView.allowsMultipleSelection = YES;
@@ -137,12 +139,22 @@
             break;
             
         case 2:
-            if (buttonIndex == 0) {
-                _cellIdentifier = @"SwipeCell";
-            } else {
-                _cellIdentifier = @"DefaultCell";
+        {
+            switch (buttonIndex) {
+                case 0:
+                    _cellIdentifier = @"SwipeCell";
+                    [self.tableView reloadData];
+                    break;
+                    
+                case 1:
+                    _cellIdentifier = @"DefaultCell";
+                    [self.tableView reloadData];
+                    break;
+                    
+                default:
+                    break;
             }
-            [self.tableView reloadData];
+        }
             break;
             
         case 3:
@@ -151,10 +163,12 @@
                 case 0:
                     self.tableView.allowsSelectionDuringEditing = NO;
                     break;
+                    
                 case 1:
                     self.tableView.allowsSelectionDuringEditing = YES;
                     self.tableView.allowsMultipleSelectionDuringEditing = NO;
                     break;
+                    
                 case 2:
                     self.tableView.allowsSelectionDuringEditing = YES;
                     self.tableView.allowsMultipleSelectionDuringEditing = YES;
@@ -165,6 +179,7 @@
             }
         }
             break;
+            
         default:
             break;
     }
@@ -243,8 +258,10 @@
 
 - (void)cell:(BMXSwipableCell *)cell basementVisibilityChanged:(BOOL)showing
 {
-    NSLog(@"cell %@ now %@",
-          cell.textLabel.text,
+    NSIndexPath *indexPath = [self.tableView indexPathForCell: cell];
+    NSUInteger row = indexPath.row;
+    NSLog(@"cell basement %@ now %@",
+          [self cellDescriptionForRow: row],
           (showing ? @"visible" : @"not visible"));
 }
 

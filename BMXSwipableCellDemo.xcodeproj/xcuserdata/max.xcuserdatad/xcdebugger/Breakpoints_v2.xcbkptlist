@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMXSwipableCell/BMXSwipableCell.m"
-            timestampString = "402314900.074289"
+            timestampString = "402321043.338902"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
             landmarkName = "-scrollViewDidEndScrollingAnimation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMXSwipableCell/BMXSwipableCell.m"
-            timestampString = "402315700.323772"
+            timestampString = "402321043.338902"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
+            startingLineNumber = "491"
+            endingLineNumber = "491"
             landmarkName = "-_cellTouchedUp"
             landmarkType = "5">
          </BreakpointContent>
