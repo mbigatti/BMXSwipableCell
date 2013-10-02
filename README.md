@@ -4,7 +4,7 @@ A custom `UITableViewCell` that supports swipe to reveal, based on [code](https:
 tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic highlight / selection / deselection
 of rows based on user actions.
 
-![image](http://f.cl.ly/items/3H400Z030Z3A1w2N3H3W/test.gif)
+![image](http://f.cl.ly/items/1g1a2K35442l161e2I0Q/demo.gif)
 
 BMXSwipableCell is storyboard-friendly as does not implements cell contents on its own but uses the elements defined in Interface Builder. It is of course possible to implement the content by code.
 
