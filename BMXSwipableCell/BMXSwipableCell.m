@@ -266,6 +266,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     
     self.showingBasement = NO;
     self.basementView.hidden = YES;
+    self.accessoryView.transform = CGAffineTransformIdentity;
     
     //
     // notify cell delegate about change in visibility of basement
@@ -356,6 +357,7 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
     if (scrollView.contentOffset.x < 0) {
         // prevent scrolling to right
         scrollView.contentOffset = CGPointZero;
+        self.accessoryView.transform = CGAffineTransformIdentity;
         
     } else if (scrollView.contentOffset.x == 0) {
         // cover basement
@@ -372,7 +374,8 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
                                              0.0f,
                                              self.catchWidth,
                                              CGRectGetHeight(self.bounds));
-        
+     
+        self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
     }
 }
 

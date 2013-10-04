@@ -100,7 +100,7 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 **Check out the sample project for a complete usage example.**
 
 ## Notes about Interface Builder
-1. Accessory view are not supported and those have to be implemented in the content view of the cell.
+1. ~~Accessory view are not supported and those have to be implemented in the content view of the cell.~~ Now Fixed
 2. Remeber to set `Custom Class` to `BMXSwipableCell`.
 3. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
 
