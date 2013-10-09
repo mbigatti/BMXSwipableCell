@@ -61,10 +61,12 @@ Before adding subviews to the basement you can check if the cell was already ini
     	// delete button
     	//
 	    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	    deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
+	    deleteButton.backgroundColor = 
+	    	[UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
 	    deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
 	    [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-	    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	    [deleteButton setTitleColor:[UIColor whiteColor] 
+	    					forState: UIControlStateNormal];
 	    [deleteButton addTarget: self
 	                     action: @selector(userPressedDeleteButton:)
 	           forControlEvents: UIControlEventTouchUpInside];
@@ -100,9 +102,8 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 **Check out the sample project for a complete usage example.**
 
 ## Notes about Interface Builder
-1. ~~Accessory view are not supported and those have to be implemented in the content view of the cell.~~ Now Fixed
-2. Remeber to set `Custom Class` to `BMXSwipableCell`.
-3. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
+1. Remember to set `Custom Class` to `BMXSwipableCell`.
+2. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
 
 
 ## Known issues
