@@ -23,8 +23,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMXSwipableCellContentView.h"
-
 
 @class BMXSwipableCell;
 
@@ -58,7 +56,7 @@
  
  @discussion Width of scrollable area. Usually it is equal to the width of the contents stored in the basement view, but can be any larger if a different dragging feel is desired.
  */
-@property (nonatomic, assign) CGFloat catchWidth;
+@property (nonatomic, assign) CGFloat basementVisibleWidth;
 
 /**
  Support property that let the caller flag the cell basement as already configured
@@ -104,7 +102,7 @@
  
  @discussion This view host the contents of the cell. On initialization the cell contents defined in Interface Builer are moved into it.
  */
-@property (nonatomic, strong, readonly) BMXSwipableCellContentView *scrollViewContentView;
+@property (nonatomic, strong, readonly) UIView *scrollViewContentView;
 
 /**
  Basement view

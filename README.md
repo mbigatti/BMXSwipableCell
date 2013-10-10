@@ -1,10 +1,17 @@
 # BMXSwipableCell
 
-A custom `UITableViewCell` that supports swipe to reveal, based on [code](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options) and
-tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic highlight / selection / deselection
-of rows based on user actions.
+A custom `UITableViewCell` that supports cell dragging gesture to reveal a custom menu of buttons or other views. It supports:
 
-![image](http://f.cl.ly/items/1g1a2K35442l161e2I0Q/demo.gif)
+- fully customizable `UIView` to use as a canvas for custom buttons and views;
+- easy cell reuse;
+- highlight / unhighlight of cells;
+- selection / deselection of cells;
+- normal and edit mode;
+- accessory views. 
+
+`BMXSwipableCell` try to mimic the original behaviour of iOS7 Mail App by all aspects.
+
+![image](http://f.cl.ly/items/0U1r411v2B0J1t142n1P/demo.gif)
 
 BMXSwipableCell is storyboard-friendly as does not implements cell contents on its own but uses the elements defined in Interface Builder. It is of course possible to implement the content by code.
 
@@ -88,12 +95,12 @@ Before adding subviews to the basement you can check if the cell was already ini
     [super willRotateToInterfaceOrientation: toInterfaceOrientation
                                    duration: duration];
     
-    [BMXSwipableCell hideBasementOfAllCells];
+    [BMXSwipableCell coverBasementOfAllCells];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [BMXSwipableCell hideBasementOfAllCells];
+    [BMXSwipableCell coverBasementOfAllCells];
 }
 ```
 
@@ -105,10 +112,10 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 1. Remember to set `Custom Class` to `BMXSwipableCell`.
 2. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
 
+## Acknowledgements
 
-## Known issues
-1. willDeselect / didDeselect messages are not fired.
-
+- Original idea, tutorial and code by Ash Furrow - [UITableViewCell-Swipe-for-Options](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options)
+- Strategy to be able to let UITableView / UITableViewCell do the highlight / selection by richardmarktl - [SMMoreOptionsCell](https://github.com/richardmarktl/SMMoreOptionsCell)
 
 ## Contact
 

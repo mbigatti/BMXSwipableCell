@@ -7,16 +7,17 @@
 //
 
 #import "UITableViewCell+ConfigureCell.h"
+#import "BMXDataItem.h"
 
 @implementation UITableViewCell (ConfigureCell)
 
-- (void)configureCellForItem:(NSDate*)date
+- (void)configureCellForItem:(BMXDataItem*)item
 {
     //
     // configure cell contents
     //
-    self.textLabel.text = [date description];
-    self.detailTextLabel.text = [NSString stringWithFormat: @"%f", [date timeIntervalSince1970]];
+    self.textLabel.text = [item fullName];
+    self.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.userId];
     
     //
     // selected background view

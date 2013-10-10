@@ -1,5 +1,5 @@
 //
-// BMXSwipableCellContentView.h
+// BMXSwipableCellGestureDelegate.h
 //
 // Copyright (c) 2013 Massimiliano Bigatti.
 //
@@ -22,12 +22,10 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class BMXSwipableCell;
+@interface BMXSwipableCellGestureDelegate : NSObject <UIGestureRecognizerDelegate>
 
-@interface BMXSwipableCellContentView : UIView
-
-- (id)initWithFrame:(CGRect)frame cell:(BMXSwipableCell*)cell;
+- (instancetype)initWithCell:(UITableViewCell* )cell;
 
 @end
