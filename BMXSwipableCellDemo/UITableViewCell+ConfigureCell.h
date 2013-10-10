@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class BMXDataItem;
+
 @interface UITableViewCell (ConfigureCell)
 
-- (void)configureCellForItem:(NSDate*)date;
+- (void)configureCellForItem:(BMXDataItem*)item;
 
 @end

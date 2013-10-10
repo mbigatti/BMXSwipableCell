@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		506EE46417F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */; };
 		508290F017FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */; };
+		5085F77C1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */; };
+		5085F77F1806D7C000C4BFD5 /* BMXDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */; };
+		5085F7801806E27400C4BFD5 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508290F117FABA5400A4BA99 /* Reveal.framework */; };
 		50948C0017F2CCE900053AA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948BFF17F2CCE900053AA1 /* Foundation.framework */; };
 		50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0117F2CCE900053AA1 /* CoreGraphics.framework */; };
 		50948C0417F2CCE900053AA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0317F2CCE900053AA1 /* UIKit.framework */; };
@@ -27,7 +30,6 @@
 		50948C3B17F2D20400053AA1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C3A17F2D20400053AA1 /* CFNetwork.framework */; };
 		50948C3D17F2D20B00053AA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C3C17F2D20B00053AA1 /* QuartzCore.framework */; };
 		50948C4017F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50948C3F17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m */; };
-		50948C4617F2E78F00053AA1 /* BMXSwipableCellContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50948C4517F2E78F00053AA1 /* BMXSwipableCellContentView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,10 @@
 		508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		508290F117FABA5400A4BA99 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = "../../../../Applications/Developer/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework"; sourceTree = "<group>"; };
+		5085F77A1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXSwipableCellGestureDelegate.h; path = BMXSwipableCell/BMXSwipableCellGestureDelegate.h; sourceTree = "<group>"; };
+		5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXSwipableCellGestureDelegate.m; path = BMXSwipableCell/BMXSwipableCellGestureDelegate.m; sourceTree = "<group>"; };
+		5085F77D1806D7C000C4BFD5 /* BMXDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMXDataItem.h; sourceTree = "<group>"; };
+		5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMXDataItem.m; sourceTree = "<group>"; };
 		50948BFC17F2CCE900053AA1 /* BMXSwipableCellDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMXSwipableCellDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50948BFF17F2CCE900053AA1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50948C0117F2CCE900053AA1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -71,8 +77,6 @@
 		50948C3C17F2D20B00053AA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		50948C3E17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMXSwipableCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		50948C3F17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BMXSwipableCell+ConfigureCell.m"; sourceTree = "<group>"; };
-		50948C4417F2E78F00053AA1 /* BMXSwipableCellContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXSwipableCellContentView.h; path = BMXSwipableCell/BMXSwipableCellContentView.h; sourceTree = "<group>"; };
-		50948C4517F2E78F00053AA1 /* BMXSwipableCellContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXSwipableCellContentView.m; path = BMXSwipableCell/BMXSwipableCellContentView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5085F7801806E27400C4BFD5 /* Reveal.framework in Frameworks */,
 				50948C3D17F2D20B00053AA1 /* QuartzCore.framework in Frameworks */,
 				50948C3B17F2D20400053AA1 /* CFNetwork.framework in Frameworks */,
 				50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */,
@@ -140,6 +145,8 @@
 			children = (
 				50948C0E17F2CCE900053AA1 /* BMXAppDelegate.h */,
 				50948C0F17F2CCE900053AA1 /* BMXAppDelegate.m */,
+				5085F77D1806D7C000C4BFD5 /* BMXDataItem.h */,
+				5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */,
 				50948C3E17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.h */,
 				50948C3F17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m */,
 				50948C1417F2CCE900053AA1 /* BMXViewController.h */,
@@ -187,8 +194,8 @@
 			children = (
 				50948C3417F2CDFA00053AA1 /* BMXSwipableCell.h */,
 				50948C3517F2CDFA00053AA1 /* BMXSwipableCell.m */,
-				50948C4417F2E78F00053AA1 /* BMXSwipableCellContentView.h */,
-				50948C4517F2E78F00053AA1 /* BMXSwipableCellContentView.m */,
+				5085F77A1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.h */,
+				5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */,
 				506EE46217F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.h */,
 				506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */,
 			);
@@ -298,8 +305,9 @@
 				50948C1617F2CCE900053AA1 /* BMXViewController.m in Sources */,
 				50948C4017F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m in Sources */,
 				50948C3617F2CDFA00053AA1 /* BMXSwipableCell.m in Sources */,
+				5085F77C1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m in Sources */,
+				5085F77F1806D7C000C4BFD5 /* BMXDataItem.m in Sources */,
 				50948C0C17F2CCE900053AA1 /* main.m in Sources */,
-				50948C4617F2E78F00053AA1 /* BMXSwipableCellContentView.m in Sources */,
 				506EE46417F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
