@@ -1,5 +1,5 @@
 //
-// BMXSwipableCellContentView.m
+// BMXSwipableCellGestureDelegate.m
 //
 // Copyright (c) 2013 Massimiliano Bigatti.
 //
@@ -23,51 +23,27 @@
 //
 
 
-#import "BMXSwipableCellContentView.h"
-#import "BMXSwipableCell.h"
+#import "BMXSwipableCellGestureDelegate.h"
 
+@implementation BMXSwipableCellGestureDelegate {
+    UITableViewCell __weak *_cell;
+}
 
-@interface BMXSwipableCell (Internal)
-- (void)cellTouchedDown;
-- (void)cellTouchedUp;
-- (void)cellTouchCancelled;
-@end
-
-
-@interface BMXSwipableCellContentView ()
-@property (nonatomic, strong) BMXSwipableCell *cell;
-@end
-
-
-@implementation BMXSwipableCellContentView
-
-- (id)initWithFrame:(CGRect)frame cell:(BMXSwipableCell *)cell
+- (instancetype)initWithCell:(UITableViewCell* )cell
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
-        self.cell = cell;
+        _cell = cell;
     }
     return self;
+    
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.cell cellTouchedDown];
-}
+#pragma mark - UIGestureRecognizerDelegate
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.cell cellTouchedUp];
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.cell cellTouchCancelled];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //[self.cell cellTouchCancelled];
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gesture {
+    CGPoint translation = [gesture translationInView: _cell.superview];
+    return (fabsf(translation.x) > fabsf(translation.y));
 }
 
 @end

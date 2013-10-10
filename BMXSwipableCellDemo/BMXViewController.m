@@ -10,7 +10,7 @@
 #import "BMXViewController.h"
 #import "UITableViewCell+ConfigureCell.h"
 #import "UITableViewController+BMXSwipableCellSupport.h"
-
+#import "BMXDataItem.h"
 
 @implementation BMXViewController {
     NSMutableArray *_data;
@@ -51,7 +51,22 @@
                           editEditSelectionModeBarButtonItem];
     
     //
-    _data = [[NSMutableArray alloc] init];
+    //
+    //
+    NSArray *lastNames = @[@"Picard", @"Riker", @"Data", @"La Forge", @"Worf", @"Crusher", @"Troi"];
+    NSArray *firstNames = @[@"Jean Luc", @"William", @"", @"Geordi", @"", @"Beverly", @"Deanna"];
+
+    _data = [[NSMutableArray alloc] initWithCapacity: lastNames.count];
+    
+    for (NSUInteger index = 0; index < lastNames.count; index++) {
+        BMXDataItem *item = [[BMXDataItem alloc] init];
+        item.lastName = lastNames[index];
+        item.firstName = firstNames[index];
+        item.userId = 10000 + index * 2;
+
+        [_data addObject: item];
+    }
+    
     _cellIdentifier = @"SwipeCell";
 }
 
@@ -93,16 +108,6 @@
 
 
 #pragma - Actions
-
-- (IBAction)addButtonTapped:(id)sender
-{
-    [_data insertObject:[NSDate date] atIndex:0];
-    
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    
-	[self.tableView insertRowsAtIndexPaths: @[indexPath]
-                          withRowAnimation: UITableViewRowAnimationAutomatic];
-}
 
 - (IBAction)editButtonTapped:(id)sender
 {
@@ -197,8 +202,7 @@
 	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier: _cellIdentifier
                                                                                forIndexPath: indexPath];
     
-	NSDate *object = _data[indexPath.row];
-    [cell configureCellForItem: object];
+    [cell configureCellForItem: [_data objectAtIndex: indexPath.row]];
     
     if ([cell isKindOfClass:[BMXSwipableCell class]]) {
         ((BMXSwipableCell*)cell).delegate = self;
@@ -249,10 +253,9 @@
 
 - (NSString*)cellDescriptionForRow:(NSUInteger)row
 {
-    NSDate *date = [_data objectAtIndex: row];
-    NSString *temp = [NSString stringWithFormat: @"%16f", [date timeIntervalSince1970]];
-    return [temp substringFromIndex: 11];
+    return [[_data objectAtIndex: row] description];
 }
+
 
 #pragma mark - BMXSwipableCellDelegate
 
@@ -260,7 +263,7 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell: cell];
     NSUInteger row = indexPath.row;
-    NSLog(@"cell basement %@ now %@",
+    NSLog(@"cell %@ basement now %@",
           [self cellDescriptionForRow: row],
           (showing ? @"visible" : @"not visible"));
 }

@@ -8,8 +8,10 @@
 
 #import "BMXSwipableCell.h"
 
+@class BMXDataItem;
+
 @interface BMXSwipableCell (ConfigureCell)
 
-- (void)configureCellForItem:(NSDate*)date;
+- (void)configureCellForItem:(BMXDataItem*)date;
 
 @end

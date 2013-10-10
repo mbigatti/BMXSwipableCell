@@ -1,8 +1,13 @@
 # BMXSwipableCell
 
-A custom `UITableViewCell` that supports swipe to reveal, based on [code](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options) and
-tutorial by Ash Furrow and other contributors. This implementation try to mimic the iOS7 Mail app, including automatic highlight / selection / deselection
-of rows based on user actions.
+A custom `UITableViewCell` that supports swipe in order to be able to reveal a custom menu of buttons or other views. `BMXSwipableCell` supports:
+
+- highlight / unhighlight of cells;
+- selection / deselection of cells;
+- normal and edit mode;
+- accessory views. 
+
+It try to mimic the original behaviour of iOS7 Mail App by all aspects.
 
 ![image](http://f.cl.ly/items/1g1a2K35442l161e2I0Q/demo.gif)
 
@@ -105,10 +110,10 @@ This code is also available in the `UITableViewController+BMXSwipableCellSupport
 1. Remember to set `Custom Class` to `BMXSwipableCell`.
 2. To always get correct background colors (both in normal and editing modes), configure the `Background` property in both cell and content view.
 
+## Acknowledgements
 
-## Known issues
-1. willDeselect / didDeselect messages are not fired.
-
+- Original idea, tutorial and code by Ash Furrow - [UITableViewCell-Swipe-for-Options](https://github.com/TeehanLax/UITableViewCell-Swipe-for-Options)
+- Strategy to be able to let UITableView / UITableViewCell do the highlight / selection by richardmarktl - [SMMoreOptionsCell](https://github.com/richardmarktl/SMMoreOptionsCell)
 
 ## Contact
 

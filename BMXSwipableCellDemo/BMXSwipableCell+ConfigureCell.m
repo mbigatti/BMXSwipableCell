@@ -7,13 +7,14 @@
 //
 
 #import "BMXSwipableCell+ConfigureCell.h"
+#import "BMXDataItem.h"
 
 @implementation BMXSwipableCell (ConfigureCell)
 
-- (void)configureCellForItem:(NSDate*)date
+- (void)configureCellForItem:(BMXDataItem*)item
 {
     CGFloat cellHeight = CGRectGetHeight(self.bounds);
-    CGFloat x = self.catchWidth - cellHeight * 2;
+    CGFloat x = self.basementVisibleWidth - cellHeight * 2;
 
     //
     // configure cell only if not already done
@@ -57,8 +58,8 @@
     //
     // configure cell contents
     //
-    self.textLabel.text = [date description];
-    self.detailTextLabel.text = [NSString stringWithFormat: @"%f", [date timeIntervalSince1970]];
+    self.textLabel.text = [item fullName];
+    self.detailTextLabel.text = [NSString stringWithFormat:@"%d", item.userId];
     
     //
     // selected background view
@@ -66,7 +67,6 @@
     CGRect rect = CGRectMake(0, 0, CGRectGetWidth(self.bounds),  CGRectGetHeight(self.bounds));
     self.selectedBackgroundView = [[UIView alloc] initWithFrame: rect];
     self.selectedBackgroundView.backgroundColor = BACKGROUND_COLOR_1;
-
 }
 
 - (void)userPressedMoreButton:(id)sender
