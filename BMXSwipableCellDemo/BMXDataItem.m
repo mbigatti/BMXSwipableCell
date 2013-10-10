@@ -12,7 +12,11 @@
 
 - (NSString*)fullName
 {
-    return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+    if (_firstName.length != 0) {
+        return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+    } else {
+        return _lastName;
+    }
 }
 
 - (NSString *)description
