@@ -3,6 +3,7 @@
 A custom `UITableViewCell` that supports cell dragging gesture to reveal a custom menu of buttons or other views. It supports:
 
 - fully customizable `UIView` to use as a canvas for custom buttons and views;
+- storyboards;
 - easy cell reuse;
 - highlight / unhighlight of cells;
 - selection / deselection of cells;
