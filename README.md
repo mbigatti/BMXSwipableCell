@@ -36,13 +36,13 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project and add it t
 2. Implement the `tableView:cellForRowAtIndexPath` method and configure the cell as desired. Here it is done by a category:
 
 ```objective-c
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView 
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	BMXSwipableCell *cell = (BMXSwipableCell *)[tableView dequeueReusableCellWithIdentifier: @"Cell"
                                                                                forIndexPath: indexPath];
     
-	NSDate *object = _data[indexPath.row];
-    [cell configureCellForItem: object];
+	[cell configureCellForItem: [_data objectAtIndex: indexPath.row]];
 
 	return cell;
 } 
@@ -53,10 +53,10 @@ Before adding subviews to the basement you can check if the cell was already ini
 ```objective-c
 @implementation BMXSwipableCell (ConfigureCell)
 
-- (void)configureCellForItem:(NSDate*)date
+- (void)configureCellForItem:(BMXDataItem*)item
 {
     CGFloat cellHeight = CGRectGetHeight(self.bounds);
-    CGFloat x = self.catchWidth - cellHeight * 2;
+    CGFloat x = self.basementVisibleWidth - cellHeight * 2;
     
     //
     // configure cell only if not already done
