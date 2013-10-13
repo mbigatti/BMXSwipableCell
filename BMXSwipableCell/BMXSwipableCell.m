@@ -33,8 +33,8 @@ NSString *const BMXSwipableCellScrollViewKey = @"BMXSwipableCellScrollViewKey";
 
 
 // private constants
-static const NSTimeInterval kDefaultBasementVisibleWidth = 120;
-static const NSTimeInterval kDefaultUITableViewDeleteControlWidth = 47;
+static const CGFloat kDefaultBasementVisibleWidth = 120;
+static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 //
 //
