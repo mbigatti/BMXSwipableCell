@@ -40,8 +40,9 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project and add it t
 - (UITableViewCell *)tableView:(UITableView *)tableView 
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	BMXSwipableCell *cell = (BMXSwipableCell *)[tableView dequeueReusableCellWithIdentifier: @"Cell"
-                                                                               forIndexPath: indexPath];
+	BMXSwipableCell *cell = (BMXSwipableCell *)
+	    [tableView dequeueReusableCellWithIdentifier: @"Cell"
+	                                    forIndexPath: indexPath];
     
 	[cell configureCellForItem: [_data objectAtIndex: indexPath.row]];
 
@@ -91,7 +92,8 @@ Before adding subviews to the basement you can check if the cell was already ini
 3. Add few methods to your `UITableViewController` / `UITableViewDelegate` to manage automatic hiding of basements when device is rotated or when the list is scrolled:
 
 ```objective-c
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+                                duration:(NSTimeInterval)duration {
     
     [super willRotateToInterfaceOrientation: toInterfaceOrientation
                                    duration: duration];
