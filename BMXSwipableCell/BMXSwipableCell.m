@@ -160,6 +160,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [super prepareForReuse];
     [self.scrollView setContentOffset: CGPointZero animated: NO];
     _scrollView.userInteractionEnabled = NO;
+    self.accessoryView.transform = CGAffineTransformIdentity;
 }
 
 - (void)setSelected:(BOOL)selected
@@ -199,6 +200,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [super setEditing: editing animated: animated];
     
     self.scrollView.scrollEnabled = !editing;
+    
+    _basementView.hidden = editing;
+
 
 //    NSLog(@"setEditing: bmx_coverBasement");
     [self bmx_coverBasement];
@@ -460,13 +464,17 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
             } else {
                 [_scrollView setContentOffset: CGPointZero
                                      animated:YES];
+                self.accessoryView.transform = CGAffineTransformIdentity;
+                NSLog(@"check if it required to call bmx_coverBasement");
             }
         } break;
             
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed: {
-            [_scrollView setContentOffset:CGPointZero animated:YES];
+            [_scrollView setContentOffset: CGPointZero animated: YES];
             _scrollView.userInteractionEnabled = NO;
+            self.accessoryView.transform = CGAffineTransformIdentity;
+            NSLog(@"check if it required to call bmx_coverBasement");
         } break;
             
         default:
