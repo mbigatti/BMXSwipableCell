@@ -38,7 +38,8 @@ Drag `BMXSwipableCellDemo/BMXSwipableCell` folder into your project and add it t
 
 ```objective-c
 - (UITableViewCell *)tableView:(UITableView *)tableView 
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
     
 	BMXSwipableCell *cell = (BMXSwipableCell *)
 	    [tableView dequeueReusableCellWithIdentifier: @"Cell"
@@ -93,7 +94,8 @@ Before adding subviews to the basement you can check if the cell was already ini
 
 ```objective-c
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
-                                duration:(NSTimeInterval)duration {
+                                duration:(NSTimeInterval)duration 
+{
     
     [super willRotateToInterfaceOrientation: toInterfaceOrientation
                                    duration: duration];
