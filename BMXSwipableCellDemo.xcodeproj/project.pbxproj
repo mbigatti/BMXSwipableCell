@@ -11,7 +11,6 @@
 		508290F017FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */; };
 		5085F77C1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */; };
 		5085F77F1806D7C000C4BFD5 /* BMXDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */; };
-		5085F7801806E27400C4BFD5 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508290F117FABA5400A4BA99 /* Reveal.framework */; };
 		50948C0017F2CCE900053AA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948BFF17F2CCE900053AA1 /* Foundation.framework */; };
 		50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0117F2CCE900053AA1 /* CoreGraphics.framework */; };
 		50948C0417F2CCE900053AA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0317F2CCE900053AA1 /* UIKit.framework */; };
@@ -84,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5085F7801806E27400C4BFD5 /* Reveal.framework in Frameworks */,
 				50948C3D17F2D20B00053AA1 /* QuartzCore.framework in Frameworks */,
 				50948C3B17F2D20400053AA1 /* CFNetwork.framework in Frameworks */,
 				50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */,
