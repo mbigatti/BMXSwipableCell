@@ -25,6 +25,9 @@
 #import "BMXSwipableCell.h"
 #import "BMXSwipableCellGestureDelegate.h"
 
+#define BMX_SWIPABLE_CELL_LOG_ENABLED
+#undef BMX_SWIPABLE_CELL_LOG_ENABLED
+
 //
 // public constants
 //
@@ -125,6 +128,14 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [super layoutSubviews];
     
     //
+    // check if other views was added after cell creation
+    // for example, this happens when populating a label
+    // with standard UITableViewCell and that same label
+    // is not initialized in NIB/Storyboard
+    //
+    [self bmx_moveContentViewSubViews];
+    
+    //
     // resize views
     //
     {
@@ -190,7 +201,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     _basementView.hidden = editing;
     
     
-    //    NSLog(@"setEditing: bmx_coverBasement");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"setEditing: bmx_coverBasement");
+#endif
     [self bmx_coverBasement];
 }
 
@@ -263,17 +276,19 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self bmx_moveContentViewSubViews];
 }
 
-
 - (void)bmx_moveContentViewSubViews
 {
     //
     // move storyboard / custom cell subviews into the scroll view
     //
     NSArray *constraints = [self.contentView constraints];
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"constraints.count=%d", constraints.count);
+#endif
+    
     NSMutableArray *newConstraints = [@[] mutableCopy];
     
-    NSArray *subviews = self.contentView.subviews;
-    for (UIView *view in subviews) {
+    for (UIView *view in self.contentView.subviews) {
         if (view != self.scrollView) {
             
             for (NSLayoutConstraint *constraint in constraints) {
@@ -290,15 +305,15 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                 }
                 
                 // create new constraint
-                NSLayoutConstraint *newConstraint = [NSLayoutConstraint constraintWithItem:firstItem
-                                                                                 attribute:constraint.firstAttribute
-                                                                                 relatedBy:constraint.relation
-                                                                                    toItem:secondItem
-                                                                                 attribute:constraint.secondAttribute
-                                                                                multiplier:constraint.multiplier
-                                                                                  constant:constraint.constant];
+                NSLayoutConstraint *newConstraint = [NSLayoutConstraint constraintWithItem: firstItem
+                                                                                 attribute: constraint.firstAttribute
+                                                                                 relatedBy: constraint.relation
+                                                                                    toItem: secondItem
+                                                                                 attribute: constraint.secondAttribute
+                                                                                multiplier: constraint.multiplier
+                                                                                  constant: constraint.constant];
                 newConstraint.priority = constraint.priority;
-                [newConstraints addObject:newConstraint];
+                [newConstraints addObject: newConstraint];
             }
             
             [view removeFromSuperview];
@@ -306,7 +321,10 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         }
     }
     
-    if (newConstraints.count > 0) [self.scrollViewContentView addConstraints:newConstraints];
+    if (newConstraints.count > 0) {
+        [self.scrollViewContentView addConstraints:newConstraints];
+    }
+    
     [self.contentView addSubview: self.scrollView];
 }
 
@@ -352,7 +370,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 - (void)bmx_basementDidAppear
 {
-    //    NSLog(@"bmx_basementDidAppear");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"bmx_basementDidAppear");
+#endif
     
     if (!_showingBasement) {
         _scrollView.userInteractionEnabled = YES;
@@ -393,7 +413,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    //    NSLog(@"scrollViewWillEndDragging");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"scrollViewWillEndDragging");
+#endif
     
     //
     // Called when basement is visible and the cell dragging is
@@ -407,7 +429,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //    NSLog(@"scrollViewDidScroll contentOffset.x=%f", scrollView.contentOffset.x);
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"scrollViewDidScroll contentOffset.x=%f", scrollView.contentOffset.x);
+#endif
     
     if (self.editing) {
         return;
@@ -419,7 +443,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         self.accessoryView.transform = CGAffineTransformIdentity;
         
     } else if (scrollView.contentOffset.x == 0) {
-        //        NSLog(@"scrollViewDidScroll: cover basement");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+        NSLog(@"scrollViewDidScroll: cover basement");
+#endif
         [self bmx_coverBasement];
         
 	} else {
@@ -460,7 +486,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         return;
     }
     
-    //    NSLog(@"enclosingTableViewDidScroll: bmx_coverBasement");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"enclosingTableViewDidScroll: bmx_coverBasement");
+#endif
     [self bmx_coverBasement];
 }
 
@@ -470,13 +498,17 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 - (void)bmx_handleSingleTap:(UITapGestureRecognizer *)gesture {
     CGPoint point = [gesture locationInView:_scrollView];
     if ( CGRectContainsPoint(_scrollViewContentView.frame, point) ) {
-        //        NSLog(@"bmx_handleSingleTap: bmx_coverBasement");
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+        NSLog(@"bmx_handleSingleTap: bmx_coverBasement");
+#endif
         [self bmx_coverBasement];
     }
 }
 
 - (void)bmx_handlePanGesture:(UIPanGestureRecognizer *)gesture {
-    //    NSLog(@"%@", [gesture description]);
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    NSLog(@"%@", [gesture description]);
+#endif
     
     if ( self.isEditing || _showingBasement) {
         return;
@@ -506,7 +538,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                 [_scrollView setContentOffset: CGPointZero
                                      animated:YES];
                 self.accessoryView.transform = CGAffineTransformIdentity;
-                NSLog(@"check if it required to call bmx_coverBasement");
             }
         } break;
             
@@ -515,7 +546,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
             [_scrollView setContentOffset: CGPointZero animated: YES];
             _scrollView.userInteractionEnabled = NO;
             self.accessoryView.transform = CGAffineTransformIdentity;
-            NSLog(@"check if it required to call bmx_coverBasement");
         } break;
             
         default:

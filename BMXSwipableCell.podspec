@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BMXSwipableCell"
-  s.version      = "1.2.1"
+  s.version      = "1.2.2"
   s.summary      = "A custom UITableViewCell that supports swipe to reveal"
   s.homepage     = "https://github.com/mbigatti/BMXSwipableCell"
 
