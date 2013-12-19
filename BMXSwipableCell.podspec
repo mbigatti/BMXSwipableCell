@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license      = 'MIT'
   s.author       = { "Massimiliano Bigatti" => "massimiliano@bigatti.it" }
   s.source       = { :git => "https://github.com/mbigatti/BMXSwipableCell.git", :tag => "1.2.1" }
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '6.0'
   s.source_files = 'BMXSwipableCell', 'BMXSwipableCell/**/*.{h,m}'
   s.requires_arc = true
 end
