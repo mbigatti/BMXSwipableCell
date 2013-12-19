@@ -12,10 +12,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window.tintColor = [UIColor colorWithRed: 57.0 / 255
-                                            green: 109.0 / 255
-                                             blue: 187.0 / 255
-                                            alpha: 1.0];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        self.window.tintColor = [UIColor colorWithRed: 57.0 / 255
+                                                green: 109.0 / 255
+                                                 blue: 187.0 / 255
+                                                alpha: 1.0];
+    }
+
     return YES;
 }
 
