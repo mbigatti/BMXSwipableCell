@@ -259,6 +259,11 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         [_scrollView addGestureRecognizer: _tapGesture];
         [self.contentView addGestureRecognizer: _panGesture];
     }
+
+    //
+    // Set default value for swipeEnabled property
+    //
+    _swipeEnabled = YES;
     
     //
     // close basement when table scrolls
@@ -510,7 +515,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     NSLog(@"%@", [gesture description]);
 #endif
     
-    if ( self.isEditing || _showingBasement) {
+    if ( self.isEditing || _showingBasement || !_swipeEnabled) {
         return;
     }
     

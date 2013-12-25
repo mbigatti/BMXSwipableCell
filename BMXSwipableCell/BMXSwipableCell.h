@@ -112,6 +112,14 @@
 @property (nonatomic, strong, readonly) UIView *basementView;
 
 
+/**
+ Swipe enabled
+
+ @discussion Defines if swipe enabled for current cell. Enabled by default.
+ */
+@property (nonatomic, assign) BOOL swipeEnabled;
+
+
 ///------------------------------------------------
 /// @name Class Methods
 ///------------------------------------------------
