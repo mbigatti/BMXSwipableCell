@@ -70,6 +70,17 @@
     _cellIdentifier = @"SwipeCell";
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    BMXSwipableCell* cell = (BMXSwipableCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell openBasement:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [cell closeBasement:YES];
+    });
+}
+
 - (void)selectionButtonTapped:(id)sender
 {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle: @"Choose selection mode for viewing"

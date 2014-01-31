@@ -131,4 +131,7 @@
  */
 + (void)coverBasementOfAllCells;
 
+- (void)openBasement:(BOOL)animated;
+- (void)closeBasement:(BOOL)animated;
+
 @end

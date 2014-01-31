@@ -558,6 +558,18 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     }
 }
 
+- (void)openBasement:(BOOL)animated
+{
+    [self.scrollView setContentOffset:CGPointMake(self.basementVisibleWidth, 0.f) animated:YES];
+    _scrollView.userInteractionEnabled = YES;
+    _showingBasement = YES;
+    _panGesture.enabled = NO;
+}
+
+- (void)closeBasement:(BOOL)animated
+{
+    [self bmx_coverBasement];
+}
 
 #pragma mark - Class methods
 
