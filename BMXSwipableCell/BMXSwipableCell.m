@@ -178,6 +178,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 {
     [super setEditing: editing animated: animated];
     self.scrollView.scrollEnabled = !editing;
+    self.basementView.hidden = editing;
     [self coverBasementForced:YES animated:animated];
 }
 
