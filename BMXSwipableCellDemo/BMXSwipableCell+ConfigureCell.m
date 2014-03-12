@@ -28,7 +28,7 @@
         moreButton.backgroundColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0f];
         moreButton.frame = CGRectMake(x, 0, cellHeight, cellHeight);
         [moreButton setTitle: @"More" forState: UIControlStateNormal];
-        [moreButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
+        [moreButton setTitleColor: [UIColor yellowColor] forState: UIControlStateNormal];
         [moreButton addTarget: self
                        action: @selector(userPressedMoreButton:)
              forControlEvents: UIControlEventTouchUpInside];
@@ -42,7 +42,7 @@
         deleteButton.backgroundColor = [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0f];
         deleteButton.frame = CGRectMake(x + cellHeight, 0, cellHeight, cellHeight);
         [deleteButton setTitle: @"Delete" forState: UIControlStateNormal];
-        [deleteButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
+        [deleteButton setTitleColor: [UIColor yellowColor] forState: UIControlStateNormal];
         [deleteButton addTarget: self
                          action: @selector(userPressedDeleteButton:)
                forControlEvents: UIControlEventTouchUpInside];
@@ -59,7 +59,7 @@
     // configure cell contents
     //
     self.textLabel.text = [item fullName];
-    self.detailTextLabel.text = [NSString stringWithFormat:@"%d", item.userId];
+    self.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)item.userId];
     
     //
     // selected background view
