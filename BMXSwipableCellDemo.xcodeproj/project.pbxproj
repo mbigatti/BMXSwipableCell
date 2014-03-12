@@ -42,8 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AE3DD6618CF61EE00ABF60A /* BMXScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMXScrollView.h; sourceTree = "<group>"; };
-		0AE3DD6718CF61EE00ABF60A /* BMXScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMXScrollView.m; sourceTree = "<group>"; };
+		0AE3DD6618CF61EE00ABF60A /* BMXScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXScrollView.h; path = BMXSwipableCell/BMXScrollView.h; sourceTree = "<group>"; };
+		0AE3DD6718CF61EE00ABF60A /* BMXScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXScrollView.m; path = BMXSwipableCell/BMXScrollView.m; sourceTree = "<group>"; };
 		506EE46217F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewController+BMXSwipableCellSupport.h"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.h"; sourceTree = "<group>"; };
 		506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewController+BMXSwipableCellSupport.m"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.m"; sourceTree = "<group>"; };
 		508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
