@@ -25,6 +25,7 @@
 #import <UIKit/UIKit.h>
 
 @class BMXSwipableCell;
+@class BMXScrollView;
 
 
 /**
@@ -75,7 +76,7 @@
  
  @discussion `YES` if the menu was shown; otherwise, `NO`.
  */
-@property (nonatomic, assign, readonly) BOOL showingBasement;
+@property (nonatomic, readonly, getter = isShowingBasement) BOOL showingBasement;
 
 /**
  The object that acts as the delegate of the receiving cell.
@@ -95,7 +96,7 @@
  
  @discussion Scroll View used to implement the "swipe to reveal" effect.
  */
-@property (nonatomic, strong, readonly) UIScrollView *scrollView;
+@property (nonatomic, strong, readonly) BMXScrollView *scrollView;
 
 /**
  Hosting content view
@@ -110,14 +111,6 @@
  @discussion The basement view is the area that can host user content, that can be UIButtons or custom views.
  */
 @property (nonatomic, strong, readonly) UIView *basementView;
-
-
-/**
- Swipe enabled
-
- @discussion Defines if swipe enabled for current cell. Enabled by default.
- */
-@property (nonatomic, assign) BOOL swipeEnabled;
 
 
 ///------------------------------------------------
