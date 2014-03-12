@@ -152,7 +152,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     else if (self.selected != selected)
     {
         [super setSelected: selected animated: animated];
-        self.basementView.hidden = selected;
+        self.basementView.hidden = (selected || self.highlighted ? YES : NO);
     }
 }
 
@@ -170,7 +170,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     else if (self.highlighted != highlighted && !self.isShowingBasement)
     {
         [super setHighlighted:highlighted animated:animated];
-        self.basementView.hidden = highlighted;
+        self.basementView.hidden = (highlighted || self.selected ? YES : NO);
     }
 }
 
@@ -191,11 +191,13 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     _scrollView = [[BMXScrollView alloc] initWithFrame: CGRectZero];
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.delegate = self;
+    _scrollView.delaysContentTouches = NO;
 
     _basementView = [[UIView alloc] initWithFrame: CGRectZero];
     _basementView.backgroundColor = [self.contentView backgroundColor];
     _basementView.clipsToBounds = YES;
     [_scrollView addSubview: _basementView];
+    _scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
 
     _scrollViewContentView = [[UIView alloc] init];
     _scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
@@ -283,7 +285,8 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 - (void)coverBasementForced:(BOOL)force animated:(BOOL)animated
 {
-    if (self.isShowingBasement && ((!self.scrollView.dragging && !self.scrollView.decelerating) || force))
+    if (self.isShowingBasement &&
+        ((!self.scrollView.isDragging && !self.scrollView.isDecelerating) || force))
     {
         [self.scrollView setContentOffset: CGPointZero
                                  animated: animated];
@@ -349,7 +352,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     if ( _scrollView.contentOffset.x == _basementVisibleWidth )
     {
         if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
-            [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
+            [self.delegate cell: self basementVisibilityChanged:self.showingBasement];
         }
     }
 }
