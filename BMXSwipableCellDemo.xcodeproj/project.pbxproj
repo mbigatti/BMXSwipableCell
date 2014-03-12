@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AE3DD6818CF61EE00ABF60A /* BMXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3DD6718CF61EE00ABF60A /* BMXScrollView.m */; };
 		506EE46417F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */; };
 		508290F017FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */; };
-		5085F77C1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */; };
 		5085F77F1806D7C000C4BFD5 /* BMXDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */; };
 		50948C0017F2CCE900053AA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948BFF17F2CCE900053AA1 /* Foundation.framework */; };
 		50948C0217F2CCE900053AA1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C0117F2CCE900053AA1 /* CoreGraphics.framework */; };
@@ -42,13 +42,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AE3DD6618CF61EE00ABF60A /* BMXScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXScrollView.h; path = BMXSwipableCell/BMXScrollView.h; sourceTree = "<group>"; };
+		0AE3DD6718CF61EE00ABF60A /* BMXScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXScrollView.m; path = BMXSwipableCell/BMXScrollView.m; sourceTree = "<group>"; };
 		506EE46217F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewController+BMXSwipableCellSupport.h"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.h"; sourceTree = "<group>"; };
 		506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewController+BMXSwipableCellSupport.m"; path = "BMXSwipableCell/UITableViewController+BMXSwipableCellSupport.m"; sourceTree = "<group>"; };
 		508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		508290EF17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		508290F117FABA5400A4BA99 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = "../../../../Applications/Developer/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework"; sourceTree = "<group>"; };
-		5085F77A1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMXSwipableCellGestureDelegate.h; path = BMXSwipableCell/BMXSwipableCellGestureDelegate.h; sourceTree = "<group>"; };
-		5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMXSwipableCellGestureDelegate.m; path = BMXSwipableCell/BMXSwipableCellGestureDelegate.m; sourceTree = "<group>"; };
 		5085F77D1806D7C000C4BFD5 /* BMXDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMXDataItem.h; sourceTree = "<group>"; };
 		5085F77E1806D7C000C4BFD5 /* BMXDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMXDataItem.m; sourceTree = "<group>"; };
 		50948BFC17F2CCE900053AA1 /* BMXSwipableCellDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMXSwipableCellDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,10 +190,10 @@
 		50948C3717F2CE7300053AA1 /* BMXSwipableCell */ = {
 			isa = PBXGroup;
 			children = (
+				0AE3DD6618CF61EE00ABF60A /* BMXScrollView.h */,
+				0AE3DD6718CF61EE00ABF60A /* BMXScrollView.m */,
 				50948C3417F2CDFA00053AA1 /* BMXSwipableCell.h */,
 				50948C3517F2CDFA00053AA1 /* BMXSwipableCell.m */,
-				5085F77A1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.h */,
-				5085F77B1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m */,
 				506EE46217F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.h */,
 				506EE46317F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m */,
 			);
@@ -245,7 +245,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BMX;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Massimiliano Bigatti";
 				TargetAttributes = {
 					50948C1C17F2CCE900053AA1 = {
@@ -303,7 +303,7 @@
 				50948C1617F2CCE900053AA1 /* BMXViewController.m in Sources */,
 				50948C4017F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m in Sources */,
 				50948C3617F2CDFA00053AA1 /* BMXSwipableCell.m in Sources */,
-				5085F77C1806CF2400C4BFD5 /* BMXSwipableCellGestureDelegate.m in Sources */,
+				0AE3DD6818CF61EE00ABF60A /* BMXScrollView.m in Sources */,
 				5085F77F1806D7C000C4BFD5 /* BMXDataItem.m in Sources */,
 				50948C0C17F2CCE900053AA1 /* main.m in Sources */,
 				506EE46417F61EDA005723A7 /* UITableViewController+BMXSwipableCellSupport.m in Sources */,
@@ -360,7 +360,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -399,7 +398,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -467,7 +465,6 @@
 		50948C3217F2CCE900053AA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BMXSwipableCellDemo.app/BMXSwipableCellDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -490,7 +487,6 @@
 		50948C3317F2CCE900053AA1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BMXSwipableCellDemo.app/BMXSwipableCellDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

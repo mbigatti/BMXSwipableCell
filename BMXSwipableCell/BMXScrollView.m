@@ -1,7 +1,7 @@
 //
-// BMXSwipableCellGestureDelegate.h
+//  BMXScrollView.m
 //
-// Copyright (c) 2013 Massimiliano Bigatti.
+//  Copyright (c) 2014 Dmitry Osipa.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,23 @@
 // THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "BMXScrollView.h"
 
-@interface BMXSwipableCellGestureDelegate : NSObject <UIGestureRecognizerDelegate>
+@implementation BMXScrollView
 
-- (instancetype)initWithCell:(UITableViewCell* )cell;
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.nextResponder touchesCancelled:touches withEvent:event];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.nextResponder  touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesEnded: (NSSet *) touches withEvent: (UIEvent *) event
+{
+    [self.nextResponder touchesEnded: touches withEvent: event];
+}
 
 @end
