@@ -85,24 +85,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self setNeedsLayout];
 }
 
-
-#pragma mark - UITableViewCell Overrides
-
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-    
-    //
-    // search for the parent table view
-    //
-    UIView *view = self.superview;
-    while (! [view isKindOfClass: [UITableView class]]) {
-        view = view.superview;
-    }
-    
-    NSAssert([view isKindOfClass: [UITableView class]], @"UITableView not found");
-}
-
 //
 // in case of device rotation, subviews positions are corrected
 //
