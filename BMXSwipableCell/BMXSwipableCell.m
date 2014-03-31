@@ -91,14 +91,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-//    //
-//    // check if other views was added after cell creation
-//    // for example, this happens when populating a label
-//    // with standard UITableViewCell and that same label
-//    // is not initialized in NIB/Storyboard
-//    //
-//    [self bmx_moveContentViewSubViews];
 
     CGFloat w = CGRectGetWidth(self.bounds);
     CGFloat h = CGRectGetHeight(self.bounds);
@@ -181,6 +173,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     _basementView.clipsToBounds = YES;
     [_scrollView addSubview: _basementView];
     _scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
+    _scrollView.panGestureRecognizer.cancelsTouchesInView = NO;
 
     _scrollViewContentView = [[UIView alloc] init];
     _scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
