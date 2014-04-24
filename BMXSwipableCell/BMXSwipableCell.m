@@ -111,12 +111,17 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     // search for the parent table view
     //
     UIView *view = self.superview;
-    while (! [view isKindOfClass: [UITableView class]]) {
+    while (view && (! [view isKindOfClass: [UITableView class]])) {
         view = view.superview;
     }
-    
-    NSAssert([view isKindOfClass: [UITableView class]], @"UITableView not found");
-    
+
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+    if (! view) {
+        // cell is not contained in a UITableView view hierarchy
+        NSLog(@"UITableView not found");
+    }
+#endif
+
     _tableView = (UITableView*)view;
 }
 
