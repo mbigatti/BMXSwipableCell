@@ -22,8 +22,8 @@
 // THE SOFTWARE.
 //
 
+#import "BMXScrollView.h"
 #import "BMXSwipableCell.h"
-#import "BMXSwipableCellGestureDelegate.h"
 
 #define BMX_SWIPABLE_CELL_LOG_ENABLED
 #undef BMX_SWIPABLE_CELL_LOG_ENABLED
@@ -44,27 +44,12 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 //
 @interface BMXSwipableCell ()
 
-@property (nonatomic, strong, readwrite) UITableView *tableView;
-
 // Overridden properties from header file
-@property (nonatomic, assign, readwrite) BOOL showingBasement;
 
 @end
 
 
-//
-//
-//
-@implementation BMXSwipableCell {
-    UITableView *_tableView;
-    UITapGestureRecognizer *_tapGesture;
-    UIPanGestureRecognizer *_panGesture;
-    
-    BMXSwipableCellGestureDelegate *_gestureDelegate;
-    CGPoint _start;
-    
-    BOOL _userTouchedCellWhenBasementOpen;
-}
+@implementation BMXSwipableCell
 
 
 #pragma mark - Lifecycle
@@ -100,111 +85,76 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self setNeedsLayout];
 }
 
-
-#pragma mark - UITableViewCell Overrides
-
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-    
-    //
-    // search for the parent table view
-    //
-    UIView *view = self.superview;
-    while (! [view isKindOfClass: [UITableView class]]) {
-        view = view.superview;
-    }
-    
-    NSAssert([view isKindOfClass: [UITableView class]], @"UITableView not found");
-    
-    _tableView = (UITableView*)view;
-}
-
 //
 // in case of device rotation, subviews positions are corrected
 //
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    //
-    // check if other views was added after cell creation
-    // for example, this happens when populating a label
-    // with standard UITableViewCell and that same label
-    // is not initialized in NIB/Storyboard
-    //
-    [self bmx_moveContentViewSubViews];
-    
-    //
-    // resize views
-    //
+
+    CGFloat w = CGRectGetWidth(self.bounds);
+    CGFloat h = CGRectGetHeight(self.bounds);
+    if (self.editing)
     {
-        CGFloat w = CGRectGetWidth(self.bounds);
-        CGFloat h = CGRectGetHeight(self.bounds);
-        if (self.editing) {
-            w -= kDefaultUITableViewDeleteControlWidth;
-        }
-        
-        self.scrollView.contentSize = CGSizeMake(w + self.basementVisibleWidth, h);
-        self.scrollView.frame = CGRectMake(0, 0, w, h);
-        self.basementView.frame = CGRectMake(w - self.basementVisibleWidth, 0, self.basementVisibleWidth, h);
-        self.scrollViewContentView.frame = CGRectMake(0, 0, w, h);
+        w -= kDefaultUITableViewDeleteControlWidth;
     }
+
+    self.scrollView.contentSize = CGSizeMake(w + self.basementVisibleWidth, h);
+    self.scrollView.frame = CGRectMake(0, 0, w, h);
+    self.basementView.frame = CGRectMake(w - self.basementVisibleWidth, 0, self.basementVisibleWidth, h);
+    self.scrollViewContentView.frame = CGRectMake(0, 0, w, h);
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [self.scrollView setContentOffset: CGPointZero animated: NO];
-    _scrollView.userInteractionEnabled = NO;
+    [self.scrollView setContentOffset:CGPointZero animated:NO];
+    self.basementConfigured = NO;
     self.accessoryView.transform = CGAffineTransformIdentity;
 }
 
 - (void)setSelected:(BOOL)selected
 {
-    if (self.selected != selected) {
-        [super setSelected: selected];
-        [self bmx_coverAllBasementAndSetBasementHidden: YES];
-    }
+    [self setSelected:selected animated:NO];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    if (self.selected != selected) {
+    if (self.isShowingBasement)
+    {
+        [self coverBasementForced:NO animated:YES];
+    }
+    else if (self.selected != selected)
+    {
         [super setSelected: selected animated: animated];
-        [self bmx_coverAllBasementAndSetBasementHidden: YES];
+        self.basementView.hidden = (selected || self.highlighted ? YES : NO);
     }
 }
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-    if (self.highlighted != highlighted) {
-        [super setHighlighted: highlighted];
-        [self bmx_coverAllBasementAndSetBasementHidden: YES];
-    }
+    [self setHighlighted:highlighted animated:NO];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
-    if (self.highlighted != highlighted) {
-        [super setHighlighted: highlighted animated: animated];
-        [self bmx_coverAllBasementAndSetBasementHidden: YES];
+    if (self.isShowingBasement)
+    {
+        [self coverBasementForced:NO animated:YES];
+    }
+    else if (self.highlighted != highlighted && !self.isShowingBasement)
+    {
+        [super setHighlighted:highlighted animated:animated];
+        self.basementView.hidden = (highlighted || self.selected ? YES : NO);
     }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing: editing animated: animated];
-    
     self.scrollView.scrollEnabled = !editing;
-    
-    _basementView.hidden = editing;
-    
-    
-#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-    NSLog(@"setEditing: bmx_coverBasement");
-#endif
-    [self bmx_coverBasement];
+    self.basementView.hidden = editing;
+    [self coverBasementForced:YES animated:animated];
 }
 
 
@@ -213,71 +163,31 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 - (void)bmx_initialize
 {
     self.basementVisibleWidth = kDefaultBasementVisibleWidth;
-    
-    //
-    // setup scroll view
-    //
-    {
-        _scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.delegate = self;
-        _scrollView.userInteractionEnabled = NO;
-    }
-    
-    //
-    // setup basement view (for buttons or other custom content)
-    //
-    {
-        _basementView = [[UIView alloc] initWithFrame: CGRectZero];
-        _basementView.backgroundColor = [UIColor clearColor];
-        
-        [_scrollView addSubview: _basementView];
-    }
-    
-    //
-    // setup scroll content view
-    //
-    {
-        _scrollViewContentView = [[UIView alloc] init];
-        _scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
-        
-        [_scrollView addSubview: _scrollViewContentView];
-    }
-    
-    {
-        // The cell is already delegate of some gesture recognizer classes and to prevent conflicts use this object.
-        _gestureDelegate = [[BMXSwipableCellGestureDelegate alloc] initWithCell:self];
-        
-        // Is only usable if the userInteractionEnabled property of the scrollview is set to YES.
-        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bmx_handleSingleTap:)];
-        
-        // Is only usable if the userInteractionEnabled property of the scrollview is set to NO.
-        _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bmx_handlePanGesture:)];
-        _panGesture.minimumNumberOfTouches = 1;
-        _panGesture.delegate = _gestureDelegate;
-        
-        [_scrollView addGestureRecognizer: _tapGesture];
-        [self.contentView addGestureRecognizer: _panGesture];
-    }
 
-    //
-    // Set default value for swipeEnabled property
-    //
-    _swipeEnabled = YES;
-    
-    //
-    // close basement when table scrolls
-    //
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(enclosingTableViewDidScroll:)
-                                                 name: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
-                                               object: nil];
+    _scrollView = [[BMXScrollView alloc] initWithFrame: CGRectZero];
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.delegate = self;
+    _scrollView.delaysContentTouches = NO;
+
+    _basementView = [[UIView alloc] initWithFrame: CGRectZero];
+    _basementView.backgroundColor = [self.contentView backgroundColor];
+    _basementView.clipsToBounds = YES;
+    [_scrollView addSubview: _basementView];
+    _scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
+    _scrollView.panGestureRecognizer.cancelsTouchesInView = NO;
+
+    _scrollViewContentView = [[UIView alloc] init];
+    _scrollViewContentView.backgroundColor = self.contentView.backgroundColor;
+    _scrollViewContentView.clipsToBounds = YES;
+    [_scrollView addSubview: _scrollViewContentView];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enclosingTableViewDidScroll:)
+                                                 name:BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
+                                               object:nil];
     
     [self layoutIfNeeded];
-    
-    //
-    // move subviews
-    //
+
     [self bmx_moveContentViewSubViews];
 }
 
@@ -350,63 +260,14 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     }
 }
 
-- (void)bmx_deselectCurrentCell
+- (void)coverBasementForced:(BOOL)force animated:(BOOL)animated
 {
-    //
-    // deselect current cell if dragging
-    //
-    NSIndexPath *indexPath = [self.tableView indexPathForCell: self];
-    
-    [self.tableView deselectRowAtIndexPath: indexPath
-                                  animated: NO];
-    
-    if ([_tableView.delegate respondsToSelector: @selector(tableView:didDeselectRowAtIndexPath:)]) {
-        [_tableView.delegate tableView: _tableView
-             didDeselectRowAtIndexPath: indexPath];
-    }
-}
-
-- (void)bmx_coverAllBasementAndSetBasementHidden:(BOOL)hidden
-{
-    [self bmx_coverBasementOfAllCellsExcept: self.scrollView];
-    self.basementView.hidden = hidden;
-    self.showingBasement = NO;
-}
-
-- (void)bmx_basementDidAppear
-{
-#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-    NSLog(@"bmx_basementDidAppear");
-#endif
-    
-    if (!_showingBasement) {
-        _scrollView.userInteractionEnabled = YES;
-        _showingBasement = YES;
-        _panGesture.enabled = NO;
-        
-        //
-        // notify cell delegate about change in visibility of basement
-        //
-        if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
-            [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
-        }
-    }
-}
-
-- (void)bmx_coverBasement
-{
-    if (_showingBasement) {
+    if (self.isShowingBasement &&
+        ((!self.scrollView.isDragging && !self.scrollView.isDecelerating) || force))
+    {
         [self.scrollView setContentOffset: CGPointZero
-                                 animated: YES];
-        
-        _scrollView.userInteractionEnabled = NO;
-        _showingBasement = NO;
-        _panGesture.enabled = YES;
+                                 animated: animated];
         self.accessoryView.transform = CGAffineTransformIdentity;
-        
-        //
-        // notify cell delegate about change in visibility of basement
-        //
         if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
             [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
         }
@@ -421,15 +282,24 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
     NSLog(@"scrollViewWillEndDragging");
 #endif
-    
-    //
-    // Called when basement is visible and the cell dragging is
-    // managed by the scroll view.
-    //
+
 	if (scrollView.contentOffset.x <= self.basementVisibleWidth) {
 		*targetContentOffset = CGPointZero;
-		[self bmx_coverBasement];
+        self.accessoryView.transform = CGAffineTransformIdentity;
 	}
+}
+
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    [self setSelected:NO animated:NO];
+//    [self setHighlighted:NO animated:NO];
+//}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self bmx_coverBasementOfAllCellsExcept:self.scrollView];
+    [self setSelected:NO animated:NO];
+    [self setHighlighted:NO animated:NO];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -437,43 +307,30 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
     NSLog(@"scrollViewDidScroll contentOffset.x=%f", scrollView.contentOffset.x);
 #endif
-    
-    if (self.editing) {
-        return;
-    }
-    
-    if (scrollView.contentOffset.x < 0) {
-        // prevent scrolling to the right
+
+    if (self.scrollView.contentOffset.x <= 0.f && !self.isEditing)
+    {
         scrollView.contentOffset = CGPointZero;
         self.accessoryView.transform = CGAffineTransformIdentity;
-        
-    } else if (scrollView.contentOffset.x == 0) {
-#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-        NSLog(@"scrollViewDidScroll: cover basement");
-#endif
-        [self bmx_coverBasement];
-        
-	} else {
+    }
+    else
+    {
         // slide view
-        self.basementView.hidden = NO;
         self.basementView.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.basementVisibleWidth),
                                              0.0f,
                                              self.basementVisibleWidth,
                                              CGRectGetHeight(self.bounds));
-        
+//
         self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
     }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if ( _scrollView.contentOffset.x == _basementVisibleWidth ) {
-        [self bmx_basementDidAppear];
-        
-    } else if ( _scrollView.contentOffset.x == 0.0f ) {
-        if ( _scrollView.contentOffset.x == 0.0f ) {
-            _basementView.hidden = YES;
+    if ( _scrollView.contentOffset.x == _basementVisibleWidth )
+    {
+        if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
+            [self.delegate cell: self basementVisibilityChanged:self.showingBasement];
         }
-        
     }
 }
 
@@ -494,70 +351,26 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
     NSLog(@"enclosingTableViewDidScroll: bmx_coverBasement");
 #endif
-    [self bmx_coverBasement];
+    [self coverBasementForced:YES animated:YES];
 }
 
 
 #pragma mark - Gesture Methods
 
-- (void)bmx_handleSingleTap:(UITapGestureRecognizer *)gesture {
-    CGPoint point = [gesture locationInView:_scrollView];
-    if ( CGRectContainsPoint(_scrollViewContentView.frame, point) ) {
-#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-        NSLog(@"bmx_handleSingleTap: bmx_coverBasement");
-#endif
-        [self bmx_coverBasement];
-    }
+- (void)openBasement:(BOOL)animated
+{
+    [self.scrollView setContentOffset:CGPointMake(self.basementVisibleWidth, 0.f) animated:animated];
 }
 
-- (void)bmx_handlePanGesture:(UIPanGestureRecognizer *)gesture {
-#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-    NSLog(@"%@", [gesture description]);
-#endif
-    
-    if ( self.isEditing || _showingBasement || !_swipeEnabled) {
-        return;
-    }
-    
-    if (self.selected) {
-        [self bmx_deselectCurrentCell];
-    }
-    
-    CGPoint position = [gesture locationInView:self];
-    switch (gesture.state) {
-        case UIGestureRecognizerStateBegan: {
-            _start = position;
-            [self bmx_coverAllBasementAndSetBasementHidden: YES];
-        } break;
-            
-        case UIGestureRecognizerStateChanged: {
-            [_scrollView setContentOffset: CGPointMake(MAX((_start.x - position.x), 0.0f), 0.0f)];
-        } break;
-            
-        case UIGestureRecognizerStateEnded: {
-            if ( _scrollView.contentOffset.x >= ceilf(_basementVisibleWidth / 2.0f) ) {
-                [_scrollView setContentOffset: CGPointMake(_basementVisibleWidth, 0.0f)
-                                     animated: YES];
-                
-            } else {
-                [_scrollView setContentOffset: CGPointZero
-                                     animated:YES];
-                self.accessoryView.transform = CGAffineTransformIdentity;
-            }
-        } break;
-            
-        case UIGestureRecognizerStateCancelled:
-        case UIGestureRecognizerStateFailed: {
-            [_scrollView setContentOffset: CGPointZero animated: YES];
-            _scrollView.userInteractionEnabled = NO;
-            self.accessoryView.transform = CGAffineTransformIdentity;
-        } break;
-            
-        default:
-            break;
-    }
+- (void)closeBasement:(BOOL)animated
+{
+    [self coverBasementForced:YES animated:animated];
 }
 
+- (BOOL)isShowingBasement
+{
+    return (self.scrollView.contentOffset.x > 0.f);
+}
 
 #pragma mark - Class methods
 

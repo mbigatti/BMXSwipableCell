@@ -1,7 +1,7 @@
 //
-// BMXSwipableCellGestureDelegate.m
+//  BMXScrollView.h
 //
-// Copyright (c) 2013 Massimiliano Bigatti.
+//  Copyright (c) 2014 Dmitry Osipa.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,8 @@
 // THE SOFTWARE.
 //
 
+#import <UIKit/UIKit.h>
 
-#import "BMXSwipableCellGestureDelegate.h"
-
-@implementation BMXSwipableCellGestureDelegate {
-    UITableViewCell __weak *_cell;
-}
-
-- (instancetype)initWithCell:(UITableViewCell* )cell
-{
-    self = [super init];
-    if (self) {
-        _cell = cell;
-    }
-    return self;
-    
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gesture {
-    CGPoint translation = [gesture translationInView: _cell.superview];
-    return (fabsf(translation.x) > fabsf(translation.y));
-}
+@interface BMXScrollView : UIScrollView
 
 @end
