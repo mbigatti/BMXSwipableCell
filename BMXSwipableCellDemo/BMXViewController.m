@@ -245,6 +245,9 @@
 
 - (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.accessoryView.backgroundColor = [UIColor whiteColor];
+    
     NSLog(@"cell %@ highlighted", [self cellDescriptionForRow: indexPath.row]);
 }
 
@@ -261,6 +264,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath: indexPath];
+    cell.accessoryView.backgroundColor = [UIColor whiteColor];
+    
     NSLog(@"cell %@ selected", [self cellDescriptionForRow: indexPath.row]);
 }
 

@@ -163,7 +163,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self.scrollView setContentOffset: CGPointZero animated: NO];
     _scrollView.userInteractionEnabled = NO;
     self.basementConfigured = NO;
-    self.accessoryView.transform = CGAffineTransformIdentity;
+    [self bmx_resetAccessoryView];
 }
 
 - (void)setSelected:(BOOL)selected
@@ -218,7 +218,12 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 - (void)bmx_initialize
 {
+    //
+    // default values
+    //
     self.basementVisibleWidth = kDefaultBasementVisibleWidth;
+    self.swipeEnabled = YES;
+    self.hideAccessoryViewWhenBasementOpened = YES;
     
     //
     // setup scroll view
@@ -265,11 +270,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         [_scrollView addGestureRecognizer: _tapGesture];
         [self.contentView addGestureRecognizer: _panGesture];
     }
-
-    //
-    // Set default value for swipeEnabled property
-    //
-    _swipeEnabled = YES;
     
     //
     // close basement when table scrolls
@@ -408,7 +408,8 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         _scrollView.userInteractionEnabled = NO;
         _showingBasement = NO;
         _panGesture.enabled = YES;
-        self.accessoryView.transform = CGAffineTransformIdentity;
+        
+        // hide accessory view?
         
         //
         // notify cell delegate about change in visibility of basement
@@ -416,6 +417,14 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         if ([self.delegate respondsToSelector:@selector(cell:basementVisibilityChanged:)]) {
             [self.delegate cell: self basementVisibilityChanged: self.showingBasement];
         }
+    }
+}
+
+- (void)bmx_resetAccessoryView {
+    if (_hideAccessoryViewWhenBasementOpened) {
+        self.accessoryView.hidden = NO;
+    } else {
+        self.accessoryView.transform = CGAffineTransformIdentity;
     }
 }
 
@@ -451,7 +460,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     if (scrollView.contentOffset.x < 0) {
         // prevent scrolling to the right
         scrollView.contentOffset = CGPointZero;
-        self.accessoryView.transform = CGAffineTransformIdentity;
+        [self bmx_resetAccessoryView];
         
     } else if (scrollView.contentOffset.x == 0) {
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
@@ -467,10 +476,14 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                                              self.basementVisibleWidth,
                                              CGRectGetHeight(self.bounds));
         
+        if (_hideAccessoryViewWhenBasementOpened) {
+            self.accessoryView.hidden = YES;
+        } else {
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-        NSLog(@"scrollViewDidScroll: translating accessory view by %f", -scrollView.contentOffset.x);
+            NSLog(@"scrollViewDidScroll: translating accessory view by %f", -scrollView.contentOffset.x);
 #endif
-        self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
+            self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
+        }
     }
 }
 
@@ -481,6 +494,8 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     } else if ( _scrollView.contentOffset.x == 0.0f ) {
         if ( _scrollView.contentOffset.x == 0.0f ) {
             _basementView.hidden = YES;
+            
+            [self bmx_resetAccessoryView];
         }
         
     }
@@ -551,7 +566,8 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
             } else {
                 [_scrollView setContentOffset: CGPointZero
                                      animated:YES];
-                self.accessoryView.transform = CGAffineTransformIdentity;
+                
+                [self bmx_resetAccessoryView];
             }
         } break;
             
@@ -559,7 +575,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         case UIGestureRecognizerStateFailed: {
             [_scrollView setContentOffset: CGPointZero animated: YES];
             _scrollView.userInteractionEnabled = NO;
-            self.accessoryView.transform = CGAffineTransformIdentity;
+            [self bmx_resetAccessoryView];
         } break;
             
         default:

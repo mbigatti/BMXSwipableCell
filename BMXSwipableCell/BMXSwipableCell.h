@@ -120,6 +120,16 @@
 @property (nonatomic, assign) BOOL swipeEnabled;
 
 
+/**
+ Hide the accessory view when the basement is opened.
+ 
+ @discussion This was introduced because the hack of apply a horizontal 
+ translation to the Accessory View does not work in iOS8. A workaround
+ could also be to use Auto Layout cells.
+ */
+@property (nonatomic, assign) BOOL hideAccessoryViewWhenBasementOpened;
+
+
 ///------------------------------------------------
 /// @name Open and close basement
 ///------------------------------------------------
