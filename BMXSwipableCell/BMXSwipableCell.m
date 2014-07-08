@@ -109,6 +109,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 {
     [super prepareForReuse];
     [self.scrollView setContentOffset:CGPointZero animated:NO];
+    self.basementConfigured = NO;
     self.accessoryView.transform = CGAffineTransformIdentity;
 }
 
