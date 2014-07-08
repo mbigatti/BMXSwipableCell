@@ -467,6 +467,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                                              self.basementVisibleWidth,
                                              CGRectGetHeight(self.bounds));
         
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+        NSLog(@"scrollViewDidScroll: translating accessory view by %f", -scrollView.contentOffset.x);
+#endif
         self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
     }
 }
@@ -591,3 +594,5 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 @end
 
+
+#undef BMX_SWIPABLE_CELL_LOG_ENABLED

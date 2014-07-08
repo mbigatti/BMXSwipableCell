@@ -225,6 +225,12 @@
     if ([cell isKindOfClass:[BMXSwipableCell class]]) {
         ((BMXSwipableCell*)cell).delegate = self;
     }
+    
+    // sample accessory view
+    const int wide = 10;
+    cell.accessoryView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, wide, wide)];
+    cell.accessoryView.backgroundColor = [UIColor orangeColor];
+    cell.accessoryView.layer.cornerRadius = wide / 2;
 
 	return cell;
 }
