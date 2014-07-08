@@ -460,13 +460,14 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     if (scrollView.contentOffset.x < 0) {
         // prevent scrolling to the right
         scrollView.contentOffset = CGPointZero;
-        [self bmx_resetAccessoryView];
+        //[self bmx_resetAccessoryView];
         
     } else if (scrollView.contentOffset.x == 0) {
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
         NSLog(@"scrollViewDidScroll: cover basement");
 #endif
         [self bmx_coverBasement];
+        [self bmx_resetAccessoryView];
         
 	} else {
         // slide view
@@ -480,24 +481,29 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
             self.accessoryView.hidden = YES;
         } else {
 #ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
-            NSLog(@"scrollViewDidScroll: translating accessory view by %f", -scrollView.contentOffset.x);
+            NSLog(@"scrollViewDidScroll: translating accessory view by %f", scrollView.contentOffset.x);
 #endif
             self.accessoryView.transform = CGAffineTransformMakeTranslation(-scrollView.contentOffset.x, 0);
         }
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidEndDecelerating: content offset %f", scrollView.contentOffset.x);
+    if (scrollView.contentOffset.x == 0) {
+        [self bmx_resetAccessoryView];
+    }
+}
+
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    NSLog(@"scrollViewDidEndScrollingAnimation: %f", _scrollView.contentOffset.x);
     if ( _scrollView.contentOffset.x == _basementVisibleWidth ) {
         [self bmx_basementDidAppear];
         
-    } else if ( _scrollView.contentOffset.x == 0.0f ) {
-        if ( _scrollView.contentOffset.x == 0.0f ) {
-            _basementView.hidden = YES;
-            
-            [self bmx_resetAccessoryView];
-        }
-        
+    } else { //if ( _scrollView.contentOffset.x == 0.0f ) {
+        _basementView.hidden = YES;
+        [self bmx_resetAccessoryView];
     }
 }
 
@@ -567,7 +573,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                 [_scrollView setContentOffset: CGPointZero
                                      animated:YES];
                 
-                [self bmx_resetAccessoryView];
+                //[self bmx_resetAccessoryView];
             }
         } break;
             
@@ -575,7 +581,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         case UIGestureRecognizerStateFailed: {
             [_scrollView setContentOffset: CGPointZero animated: YES];
             _scrollView.userInteractionEnabled = NO;
-            [self bmx_resetAccessoryView];
+            //[self bmx_resetAccessoryView];
         } break;
             
         default:
