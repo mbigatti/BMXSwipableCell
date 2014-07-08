@@ -3,13 +3,14 @@
 A custom `UITableViewCell` that supports cell dragging gesture to reveal a custom menu of buttons or other views. It supports:
 
 - fully customizable `UIView` to use as a canvas for custom buttons and views;
-- autolayout;
+- Auto Layout;
 - storyboards;
 - easy cell reuse;
 - highlight / unhighlight of cells;
 - selection / deselection of cells;
 - normal and edit mode;
-- accessory views. 
+- accessory views;
+- compatible with iOS 7 and 8.
 
 `BMXSwipableCell` try to mimic the original behaviour of iOS7 Mail App by all aspects.
 
