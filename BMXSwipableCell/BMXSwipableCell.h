@@ -121,6 +121,23 @@
 
 
 ///------------------------------------------------
+/// @name Open and close basement
+///------------------------------------------------
+
+/**
+  Open the basement. 
+  @param animated ignored
+ */
+- (void)openBasement:(BOOL)animated;
+
+/**
+ Close the basement.
+ @param animated ignored
+ */
+- (void)closeBasement:(BOOL)animated;
+
+
+///------------------------------------------------
 /// @name Class Methods
 ///------------------------------------------------
 

@@ -3,3 +3,6 @@ DerivedData/
 *.xcuserstate
 *.xcbkptlist
 *.xccheckout
+
+BMXSwipableCellDemo.xcodeproj/project.xcworkspace/xcuserdata/*
+BMXSwipableCellDemo.xcodeproj/xcuserdata/*

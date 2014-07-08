@@ -21,7 +21,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"(%d) %@/%@", _userId, _firstName, _lastName];
+    return [NSString stringWithFormat:@"(%lu) %@/%@", (unsigned long)_userId, _firstName, _lastName];
 }
 
 @end

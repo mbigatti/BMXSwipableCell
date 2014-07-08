@@ -162,6 +162,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [super prepareForReuse];
     [self.scrollView setContentOffset: CGPointZero animated: NO];
     _scrollView.userInteractionEnabled = NO;
+    self.basementConfigured = NO;
     self.accessoryView.transform = CGAffineTransformIdentity;
 }
 
@@ -561,6 +562,22 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         default:
             break;
     }
+}
+
+
+#pragma mark - Open and close basement
+
+- (void)openBasement:(BOOL)animated
+{
+    [self.scrollView setContentOffset:CGPointMake(self.basementVisibleWidth, 0.f) animated:YES];
+    _scrollView.userInteractionEnabled = YES;
+    _showingBasement = YES;
+    _panGesture.enabled = NO;
+}
+
+- (void)closeBasement:(BOOL)animated
+{
+    [self bmx_coverBasement];
 }
 
 

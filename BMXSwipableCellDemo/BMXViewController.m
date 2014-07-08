@@ -17,6 +17,9 @@
     NSString *_cellIdentifier;
 }
 
+
+#pragma mark - UIView lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -70,6 +73,24 @@
     _cellIdentifier = @"SwipeCell";
 }
 
+// hints the user showing the basement for a little time
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    BMXSwipableCell* cell = (BMXSwipableCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    [cell openBasement:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [cell closeBasement:YES];
+    });
+}
+
+
+#pragma mark - Actions
+
 - (void)selectionButtonTapped:(id)sender
 {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle: @"Choose selection mode for viewing"
@@ -105,9 +126,6 @@
     sheet.tag = 3;
     [sheet showFromToolbar: self.navigationController.toolbar];
 }
-
-
-#pragma - Actions
 
 - (IBAction)editButtonTapped:(id)sender
 {

@@ -59,7 +59,7 @@
     // configure cell contents
     //
     self.textLabel.text = [item fullName];
-    self.detailTextLabel.text = [NSString stringWithFormat:@"%d", item.userId];
+    self.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)item.userId];
     
     //
     // selected background view
