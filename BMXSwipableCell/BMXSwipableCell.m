@@ -162,7 +162,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [super prepareForReuse];
     [self.scrollView setContentOffset: CGPointZero animated: NO];
     _scrollView.userInteractionEnabled = NO;
-    self.basementConfigured = NO;
     [self bmx_resetAccessoryView];
 }
 
