@@ -306,6 +306,10 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
                 UIView *firstItem = (UIView *)constraint.firstItem;
                 UIView *secondItem = (UIView *)constraint.secondItem;
                 
+                if (!firstItem || !secondItem) {
+                    continue;
+                }
+                
                 if (firstItem == self.contentView) {
                     firstItem = self.scrollViewContentView;
                 }
