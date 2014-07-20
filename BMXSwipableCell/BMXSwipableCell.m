@@ -500,7 +500,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
     NSLog(@"scrollViewDidEndScrollingAnimation: %f", _scrollView.contentOffset.x);
+#endif
     if ( _scrollView.contentOffset.x == _basementVisibleWidth ) {
         [self bmx_basementDidAppear];
         
