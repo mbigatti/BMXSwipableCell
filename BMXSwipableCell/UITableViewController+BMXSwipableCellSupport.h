@@ -1,6 +1,6 @@
 //
 // UITableViewController+BMXSwipableCellSupport.h
-// Copyright (c) 2013 Massimiliano Bigatti.
+// Copyright (c) 2013-2014 Massimiliano Bigatti.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,16 @@
 //
 
 #import <UIKit/UIKit.h>
+
+/**
+ This category adds to the the `UITableViewController` class the following methods:
+ 
+    willRotateToInterfaceOrientation:duration:
+    scrollViewWillBeginDragging:
+ 
+ These are required to cover the basement when the device rotates or the table is
+ scrolled.
+ */
 
 @interface UITableViewController (BMXSwipableCellSupport)
 
