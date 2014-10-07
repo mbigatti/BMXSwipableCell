@@ -299,46 +299,53 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     NSMutableArray *newConstraints = [@[] mutableCopy];
     
     for (UIView *view in self.contentView.subviews) {
-        if (view != self.scrollView) {
-            
-            for (NSLayoutConstraint *constraint in constraints) {
-                
-                UIView *firstItem = (UIView *)constraint.firstItem;
-                UIView *secondItem = (UIView *)constraint.secondItem;
-                
-                if (!firstItem || !secondItem) {
-                    continue;
-                }
-                
-                if (firstItem == self.contentView) {
-                    firstItem = self.scrollViewContentView;
-                }
-                
-                if (secondItem == self.contentView) {
-                    secondItem = self.scrollViewContentView;
-                }
-                
-                // create new constraint
-                NSLayoutConstraint *newConstraint = [NSLayoutConstraint constraintWithItem: firstItem
-                                                                                 attribute: constraint.firstAttribute
-                                                                                 relatedBy: constraint.relation
-                                                                                    toItem: secondItem
-                                                                                 attribute: constraint.secondAttribute
-                                                                                multiplier: constraint.multiplier
-                                                                                  constant: constraint.constant];
-                newConstraint.priority = constraint.priority;
-                [newConstraints addObject: newConstraint];
-            }
-            
+		if ([constraint isMemberOfClass:NSLayoutConstraint.class]) {
+			if (view != self.scrollView) {
+
+				for (NSLayoutConstraint *constraint in constraints) {
+
+					UIView *firstItem = (UIView *)constraint.firstItem;
+					UIView *secondItem = (UIView *)constraint.secondItem;
+
+					if (!firstItem || !secondItem) {
+						continue;
+					}
+
+					if (firstItem == self.contentView) {
+						firstItem = self.scrollViewContentView;
+					}
+
+					if (secondItem == self.contentView) {
+						secondItem = self.scrollViewContentView;
+					}
+
+					// create new constraint
+					NSLayoutConstraint *newConstraint = [NSLayoutConstraint constraintWithItem: firstItem
+																					 attribute: constraint.firstAttribute
+																					 relatedBy: constraint.relation
+																						toItem: secondItem
+																					 attribute: constraint.secondAttribute
+																					multiplier: constraint.multiplier
+																					  constant: constraint.constant];
+					newConstraint.priority = constraint.priority;
+					[newConstraints addObject: newConstraint];
+				}
+#ifdef BMX_SWIPABLE_CELL_LOG_ENABLED
+			} else {
+				NSLog(@"Warning: Unsupported %@ instance in content view autolayout constraints: please set -[translatesAutoresizingMaskIntoConstraints] property to NO for the -[BMXSwipableCell contentView] subview if this constaint is not expected.",
+					   NSStringFromClass(constraint.class));
+#endif
+			}
+
             [view removeFromSuperview];
             [self.scrollViewContentView addSubview: view];
         }
     }
-    
+
     if (newConstraints.count > 0) {
         [self.scrollViewContentView addConstraints:newConstraints];
     }
-    
+
     [self.contentView addSubview: self.scrollView];
 }
 
