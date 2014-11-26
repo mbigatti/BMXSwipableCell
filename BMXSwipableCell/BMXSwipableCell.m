@@ -44,7 +44,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 //
 @interface BMXSwipableCell ()
 
-@property (nonatomic, strong, readwrite) UITableView *tableView;
+@property (nonatomic, weak, readwrite) UITableView *tableView;
 
 // Overridden properties from header file
 @property (nonatomic, assign, readwrite) BOOL showingBasement;
@@ -56,7 +56,6 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 //
 //
 @implementation BMXSwipableCell {
-    UITableView *_tableView;
     UITapGestureRecognizer *_tapGesture;
     UIPanGestureRecognizer *_panGesture;
     
@@ -122,7 +121,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     }
 #endif
 
-    _tableView = (UITableView*)view;
+    self.tableView = (UITableView*)view;
 }
 
 //
@@ -369,8 +368,8 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self.tableView deselectRowAtIndexPath: indexPath
                                   animated: NO];
     
-    if ([_tableView.delegate respondsToSelector: @selector(tableView:didDeselectRowAtIndexPath:)]) {
-        [_tableView.delegate tableView: _tableView
+    if ([self.tableView.delegate respondsToSelector: @selector(tableView:didDeselectRowAtIndexPath:)]) {
+        [self.tableView.delegate tableView:self.tableView
              didDeselectRowAtIndexPath: indexPath];
     }
 }
