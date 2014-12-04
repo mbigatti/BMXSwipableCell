@@ -298,10 +298,10 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     NSMutableArray *newConstraints = [@[] mutableCopy];
     
     for (UIView *view in self.contentView.subviews) {
-		if ([constraint isMemberOfClass:NSLayoutConstraint.class]) {
-			if (view != self.scrollView) {
+        if (view != self.scrollView) {
 
-				for (NSLayoutConstraint *constraint in constraints) {
+            for (NSLayoutConstraint *constraint in constraints) {
+                    if ([constraint isMemberOfClass:NSLayoutConstraint.class]) {
 
 					UIView *firstItem = (UIView *)constraint.firstItem;
 					UIView *secondItem = (UIView *)constraint.secondItem;
@@ -601,9 +601,9 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 }
 
 
-#pragma mark - Open and close basement
+#pragma mark - Show and hide basement
 
-- (void)openBasement:(BOOL)animated
+- (void)showBasement:(BOOL)animated
 {
     [self.scrollView setContentOffset:CGPointMake(self.basementVisibleWidth, 0.f) animated:YES];
     _scrollView.userInteractionEnabled = YES;
@@ -611,7 +611,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     _panGesture.enabled = NO;
 }
 
-- (void)closeBasement:(BOOL)animated
+- (void)hideBasement:(BOOL)animated
 {
     [self bmx_coverBasement];
 }
@@ -619,7 +619,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
 
 #pragma mark - Class methods
 
-+ (void)coverBasementOfAllCells
++ (void)hideBasementOfAllCells
 {
     [[NSNotificationCenter defaultCenter] postNotificationName: BMXSwipableCellEnclosingTableViewDidBeginScrollingNotification
                                                         object: nil];

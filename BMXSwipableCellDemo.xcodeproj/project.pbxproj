@@ -29,6 +29,7 @@
 		50948C3B17F2D20400053AA1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C3A17F2D20400053AA1 /* CFNetwork.framework */; };
 		50948C3D17F2D20B00053AA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50948C3C17F2D20B00053AA1 /* QuartzCore.framework */; };
 		50948C4017F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50948C3F17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m */; };
+		50D922E11A30BB2C00F8BB26 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D922E01A30BB2C00F8BB26 /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		50948C3C17F2D20B00053AA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		50948C3E17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMXSwipableCell+ConfigureCell.h"; sourceTree = "<group>"; };
 		50948C3F17F2D83E00053AA1 /* BMXSwipableCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BMXSwipableCell+ConfigureCell.m"; sourceTree = "<group>"; };
+		50D922E01A30BB2C00F8BB26 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				50948C1417F2CCE900053AA1 /* BMXViewController.h */,
 				50948C1517F2CCE900053AA1 /* BMXViewController.m */,
 				50948C1717F2CCE900053AA1 /* Images.xcassets */,
+				50D922E01A30BB2C00F8BB26 /* Launch Screen.xib */,
 				50948C1117F2CCE900053AA1 /* Main.storyboard */,
 				50948C0617F2CCE900053AA1 /* Supporting Files */,
 				508290EE17FAB32500A4BA99 /* UITableViewCell+ConfigureCell.h */,
@@ -278,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50948C1817F2CCE900053AA1 /* Images.xcassets in Resources */,
+				50D922E11A30BB2C00F8BB26 /* Launch Screen.xib in Resources */,
 				50948C0A17F2CCE900053AA1 /* InfoPlist.strings in Resources */,
 				50948C1317F2CCE900053AA1 /* Main.storyboard in Resources */,
 			);

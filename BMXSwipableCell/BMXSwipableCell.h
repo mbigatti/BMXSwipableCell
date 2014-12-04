@@ -126,10 +126,10 @@
 - (void)showBasement:(BOOL)animated;
 
 /**
- Cover the basement of the current cell.
+ Hide the basement of the current cell.
  @param animated ignored
  */
-- (void)coverBasement:(BOOL)animated;
+- (void)hideBasement:(BOOL)animated;
 
 
 ///------------------------------------------------
@@ -137,8 +137,8 @@
 ///------------------------------------------------
 
 /**
- Restore initial state for all cells, closing the basement.
+ Restore initial state for all cells, hiding the basement of all cells if showed.
  */
-+ (void)coverBasementOfAllCells;
++ (void)hideBasementOfAllCells;
 
 @end
