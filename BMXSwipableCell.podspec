@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "BMXSwipableCell"
   s.version      = "1.2.5"
-  s.license      = { :type => 'MIT', :file => 'LICENSE' }
+  s.license      = { :type => 'MIT', :file => 'LICENSE.md' }
   s.summary      = "A custom UITableViewCell that supports swipe to reveal"
   s.homepage     = "https://github.com/mbigatti/BMXSwipableCell"
   s.author       = { "Massimiliano Bigatti" => "@mbigatti" }
