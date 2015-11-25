@@ -99,6 +99,12 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     [self setNeedsLayout];
 }
 
+- (void)setBasementActivationWidth:(CGFloat)basementActivationWidth
+{
+    _basementActivationWidth = basementActivationWidth;
+    [self setNeedsLayout];
+}
+
 
 #pragma mark - UITableViewCell Overrides
 
@@ -220,6 +226,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
     // default values
     //
     self.basementVisibleWidth = kDefaultBasementVisibleWidth;
+    self.basementActivationWidth = kDefaultBasementVisibleWidth / 2.0f;
     self.swipeEnabled = YES;
     self.hideAccessoryViewWhenBasementOpened = YES;
     
@@ -576,7 +583,7 @@ static const CGFloat kDefaultUITableViewDeleteControlWidth = 47;
         } break;
             
         case UIGestureRecognizerStateEnded: {
-            if ( _scrollView.contentOffset.x >= ceilf(_basementVisibleWidth / 2.0f) ) {
+            if ( _scrollView.contentOffset.x >= ceilf(_basementActivationWidth) ) {
                 [_scrollView setContentOffset: CGPointMake(_basementVisibleWidth, 0.0f)
                                      animated: YES];
                 
