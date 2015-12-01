@@ -57,6 +57,11 @@
 @property (nonatomic, assign) CGFloat basementVisibleWidth;
 
 /**
+ Minimum scrolling required for showing basement. This defaults to half of `basementVisibleWidth`.
+ */
+@property (nonatomic, assign) CGFloat basementActivationWidth;
+
+/**
  Support property that let the caller flag the cell basement as already configured.
  When cells are reused, previous basement subviews are already in place, so the client logic could use this property to avoid creation of new basement content. This property allows to avoid associated objects or tagging of the cell or its subviews.
  */
